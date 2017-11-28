@@ -5,6 +5,9 @@
  */
 package com.cw.pack;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Administrator
@@ -32,13 +35,13 @@ public class MainFrame extends javax.swing.JFrame
 
         importFile = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        carModel = new javax.swing.JComboBox<String>();
+        carModel = new javax.swing.JComboBox<>();
         calc = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        devModel = new javax.swing.JComboBox<String>();
+        devModel = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         selectAll = new javax.swing.JCheckBox();
@@ -65,7 +68,7 @@ public class MainFrame extends javax.swing.JFrame
 
         jLabel1.setText("请选择车型号");
 
-        carModel.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        carModel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         calc.setFont(new java.awt.Font("宋体", 1, 18)); // NOI18N
         calc.setText("开始计算");
@@ -106,8 +109,6 @@ public class MainFrame extends javax.swing.JFrame
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel3.setText("设备型号");
-
-        devModel.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel4.setText("设备列表");
 
@@ -275,6 +276,7 @@ public class MainFrame extends javax.swing.JFrame
 
     private void calcActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_calcActionPerformed
     {//GEN-HEADEREND:event_calcActionPerformed
+		List<Device> allDevs = new ArrayList<Device>();
 		Device dev1 = new Device();
 		dev1.setId(1);
 		dev1.setLength(300);
@@ -283,6 +285,7 @@ public class MainFrame extends javax.swing.JFrame
 		dev1.setNumber(30);
 		dev1.setBottom(true);
 		dev1.setSlanting(true);
+		allDevs.add(dev1);
 
 		Device dev2 = new Device();
 		dev2.setId(2);
@@ -290,6 +293,7 @@ public class MainFrame extends javax.swing.JFrame
 		dev2.setWidth(250);
 		dev2.setHigh(180);
 		dev2.setNumber(40);
+		allDevs.add(dev2);
 
 		Device dev3 = new Device();
 		dev3.setId(3);
@@ -297,12 +301,21 @@ public class MainFrame extends javax.swing.JFrame
 		dev3.setWidth(200);
 		dev3.setHigh(250);
 		dev3.setNumber(50);
+		allDevs.add(dev3);
 		
 		Car car = new Car();
 		car.setId(1);
 		car.setLengh(5000);
 		car.setWidth(2300);
 		car.setHigh(2100);
+		
+		for(Device dev:allDevs)
+		{			
+			for(int i=0;i<dev.getNumber();i++)
+			{
+				
+			}
+		}
 		
 		ResultDialog rd = new ResultDialog(this, true);
 		rd.setVisible(true);

@@ -13,16 +13,18 @@ import java.util.List;
  */
 public class Device
 {
-	private int id;
-	private String model;
-	private String name;
-	private int length;
-	private int width;
-	private int high;
-	private boolean horizontal;
-	private boolean vertical;
-	private List<Integer> compatibility;
-	private int number;
+	private int id;//编号
+	private String model;//型号
+	private String name;//名称
+	private int length;//长
+	private int width;//宽
+	private int high;//高
+	private boolean horizontal;//横放
+	private boolean vertical;//竖放
+	private boolean bottom;//底部朝下
+	private boolean slanting;//斜着放置
+	private List<Integer> compatibility;//不能放在一起列表
+	private int number;//物品数量
 
 	/**
 	 * @return the id
@@ -182,5 +184,37 @@ public class Device
 	public void setNumber(int number)
 	{
 		this.number = number;
+	}
+
+	/**
+	 * @return the bottom
+	 */
+	public boolean isBottom()
+	{
+		return bottom;
+	}
+
+	/**
+	 * @param bottom the bottom to set
+	 */
+	public void setBottom(boolean bottom)
+	{
+		this.bottom = bottom;
+	}
+
+	/**
+	 * @return the slanting
+	 */
+	public boolean isSlanting()
+	{
+		return slanting;
+	}
+
+	/**
+	 * @param slanting the slanting to set
+	 */
+	public void setSlanting(boolean slanting)
+	{
+		this.slanting = slanting;
 	}
 }

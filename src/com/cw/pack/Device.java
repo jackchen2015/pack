@@ -16,9 +16,9 @@ public class Device
 	private int id;//编号
 	private String model;//型号
 	private String name;//名称
-	private int length;//长
-	private int width;//宽
-	private int high;//高
+	private long length;//长
+	private long width;//宽
+	private long high;//高
 	private boolean horizontal;//横放
 	private boolean vertical;//竖放
 	private boolean bottom;//底部朝下
@@ -26,6 +26,19 @@ public class Device
 	private List<Integer> compatibility;//不能放在一起列表
 	private int number;//物品数量
 
+	
+	public Device()
+	{		
+	}
+	
+	public Device(int id, long length, long width, long high)
+	{
+		this.id = id;
+		this.length = length;
+		this.width = width;
+		this.high = high;
+	}
+	
 	/**
 	 * @return the id
 	 */
@@ -77,7 +90,7 @@ public class Device
 	/**
 	 * @return the length
 	 */
-	public int getLength()
+	public long getLength()
 	{
 		return length;
 	}
@@ -85,7 +98,7 @@ public class Device
 	/**
 	 * @param length the length to set
 	 */
-	public void setLength(int length)
+	public void setLength(long length)
 	{
 		this.length = length;
 	}
@@ -93,7 +106,7 @@ public class Device
 	/**
 	 * @return the width
 	 */
-	public int getWidth()
+	public long getWidth()
 	{
 		return width;
 	}
@@ -101,7 +114,7 @@ public class Device
 	/**
 	 * @param width the width to set
 	 */
-	public void setWidth(int width)
+	public void setWidth(long width)
 	{
 		this.width = width;
 	}
@@ -109,7 +122,7 @@ public class Device
 	/**
 	 * @return the high
 	 */
-	public int getHigh()
+	public long getHigh()
 	{
 		return high;
 	}
@@ -117,7 +130,7 @@ public class Device
 	/**
 	 * @param high the high to set
 	 */
-	public void setHigh(int high)
+	public void setHigh(long high)
 	{
 		this.high = high;
 	}
@@ -216,5 +229,18 @@ public class Device
 	public void setSlanting(boolean slanting)
 	{
 		this.slanting = slanting;
+	}
+	
+	@Override
+	public Device clone()
+	{
+		Device dev = new Device(id, length, width, high);
+		return dev;
+	}
+	
+	@Override
+	public String toString()
+	{
+		return "id:"+id+",length:"+length+",width:"+width+",high:"+high;
 	}
 }

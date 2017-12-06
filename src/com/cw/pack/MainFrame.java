@@ -5,8 +5,11 @@
  */
 package com.cw.pack;
 
+import com.cw.pack.util.Utils;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -276,46 +279,85 @@ public class MainFrame extends javax.swing.JFrame
 
     private void calcActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_calcActionPerformed
     {//GEN-HEADEREND:event_calcActionPerformed
-		List<Device> allDevs = new ArrayList<Device>();
+		Map<Integer,Device> allDevs = new HashMap<Integer,Device>();
 		Device dev1 = new Device();
 		dev1.setId(1);
 		dev1.setLength(300);
 		dev1.setWidth(200);
 		dev1.setHigh(150);
-		dev1.setNumber(30);
+		dev1.setNumber(300);
 		dev1.setBottom(true);
 		dev1.setSlanting(true);
-		allDevs.add(dev1);
+		allDevs.put(1,dev1);
 
 		Device dev2 = new Device();
 		dev2.setId(2);
 		dev2.setLength(400);
 		dev2.setWidth(250);
 		dev2.setHigh(180);
-		dev2.setNumber(40);
-		allDevs.add(dev2);
+		dev2.setNumber(400);
+		allDevs.put(2,dev2);
 
 		Device dev3 = new Device();
 		dev3.setId(3);
 		dev3.setLength(500);
 		dev3.setWidth(200);
 		dev3.setHigh(250);
-		dev3.setNumber(50);
-		allDevs.add(dev3);
+		dev3.setNumber(500);
+		allDevs.put(3, dev3);
+		Device dev4 = new Device();
+		dev4.setId(4);
+		dev4.setLength(550);
+		dev4.setWidth(520);
+		dev4.setHigh(350);
+		dev4.setNumber(1000);
+		allDevs.put(4, dev4);
+		Device dev5 = new Device();
+		dev5.setId(5);
+		dev5.setLength(800);
+		dev5.setWidth(300);
+		dev5.setHigh(280);
+		dev5.setNumber(1500);
+		allDevs.put(5, dev5);
+		Device dev6 = new Device();
+		dev6.setId(6);
+		dev6.setLength(2400);
+		dev6.setWidth(520);
+		dev6.setHigh(750);
+		dev6.setNumber(120);
+		allDevs.put(6, dev6);
+		
 		
 		Car car = new Car();
-		car.setId(1);
-		car.setLengh(5000);
+		car.setId(0);
+		car.setLength(5000);
 		car.setWidth(2300);
 		car.setHigh(2100);
-		
-		for(Device dev:allDevs)
-		{			
-			for(int i=0;i<dev.getNumber();i++)
+		for(Map.Entry<Integer, Device> devEntry:allDevs.entrySet())
+		{
+			Device dev = devEntry.getValue();
+			if(dev.getLength()>car.getWidth())
 			{
-				
+				long l = (long)java.lang.Math.sqrt(dev.getLength()*dev.getLength()-car.getWidth()*car.getWidth())+dev.getWidth();
+				dev.setLength(car.getWidth());
+				dev.setWidth(l);
+				dev.setSlanting(true);
 			}
 		}
+		
+		List<Map.Entry<Integer, Device>> sortResult = Utils.sort(allDevs, true);//逆序排列
+		List<Car> cars = new ArrayList<Car>();
+		Utils.load(cars, sortResult, car);
+		for(Car c:cars)
+		{
+			System.out.println("car id:"+c.getId());
+			List<Device> ds = c.getPutDevices();
+			for(Device d:ds)
+			{
+				System.out.println("---->dev id:"+d.getId()+", number is:"+d.getNumber());
+			}
+		}
+		
 		
 		ResultDialog rd = new ResultDialog(this, true);
 		rd.setVisible(true);

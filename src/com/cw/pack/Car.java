@@ -5,6 +5,9 @@
 
 package com.cw.pack;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author chenwei
@@ -15,10 +18,57 @@ public class Car
 	private int id;
 	private String model;
 	private String name;
-	private int lengh;
-	private int width;
-	private int high;
+	private long length;
+	private long width;
+	private long high;
+	
+	private List<Device> putDevices = new ArrayList<Device>();
+	private long leftLength;
+	
+	public Car()
+	{
+	}
+	
+	public Car(long length, long width, long high)
+	{
+		this.length = length;
+		this.leftLength = length;
+		this.width = width;
+		this.high = high;
+	}
 
+	/**
+	 * @return the putDevices
+	 */
+	public List<Device> getPutDevices()
+	{
+		return putDevices;
+	}
+
+	/**
+	 * @param putDevices the putDevices to set
+	 */
+	public void setPutDevices(List<Device> putDevices)
+	{
+		this.putDevices = putDevices;
+	}
+
+	/**
+	 * @return the leftLength
+	 */
+	public long getLeftLength()
+	{
+		return leftLength;
+	}
+
+	/**
+	 * @param leftLength the leftLength to set
+	 */
+	public void setLeftLength(long leftLength)
+	{
+		this.leftLength = leftLength;
+	}
+	
 	/**
 	 * @return the id
 	 */
@@ -70,23 +120,24 @@ public class Car
 	/**
 	 * @return the lengh
 	 */
-	public int getLengh()
+	public long getLength()
 	{
-		return lengh;
+		return length;
 	}
 
 	/**
-	 * @param lengh the lengh to set
+	 * @param length the lengh to set
 	 */
-	public void setLengh(int lengh)
+	public void setLength(long length)
 	{
-		this.lengh = lengh;
+		this.length = length;
+		this.leftLength = length;
 	}
 
 	/**
 	 * @return the width
 	 */
-	public int getWidth()
+	public long getWidth()
 	{
 		return width;
 	}
@@ -94,7 +145,7 @@ public class Car
 	/**
 	 * @param width the width to set
 	 */
-	public void setWidth(int width)
+	public void setWidth(long width)
 	{
 		this.width = width;
 	}
@@ -102,7 +153,7 @@ public class Car
 	/**
 	 * @return the high
 	 */
-	public int getHigh()
+	public long getHigh()
 	{
 		return high;
 	}
@@ -110,7 +161,7 @@ public class Car
 	/**
 	 * @param high the high to set
 	 */
-	public void setHigh(int high)
+	public void setHigh(long high)
 	{
 		this.high = high;
 	}

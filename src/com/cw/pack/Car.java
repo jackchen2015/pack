@@ -21,6 +21,8 @@ public class Car
 	private long length;
 	private long width;
 	private long high;
+	private int currWeight;
+	private int loadWeight;
 	
 	private List<Device> putDevices = new ArrayList<Device>();
 	private long leftLength;
@@ -29,12 +31,13 @@ public class Car
 	{
 	}
 	
-	public Car(long length, long width, long high)
+	public Car(long length, long width, long high, int weight)
 	{
 		this.length = length;
 		this.leftLength = length;
 		this.width = width;
 		this.high = high;
+		this.loadWeight = weight;
 	}
 
 	/**
@@ -164,6 +167,38 @@ public class Car
 	public void setHigh(long high)
 	{
 		this.high = high;
+	}
+
+	/**
+	 * @return the currWeight
+	 */
+	public int getCurrWeight()
+	{
+		return currWeight;
+	}
+
+	/**
+	 * @param currWeight the currWeight to set
+	 */
+	public void setCurrWeight(int currWeight)
+	{
+		this.currWeight = currWeight;
+	}
+
+	/**
+	 * @return the loadWeight
+	 */
+	public int getLoadWeight()
+	{
+		return loadWeight;
+	}
+
+	/**
+	 * @param loadWeight the loadWeight to set
+	 */
+	public void setLoadWeight(int loadWeight)
+	{
+		this.loadWeight = loadWeight;
 	}
 
 }

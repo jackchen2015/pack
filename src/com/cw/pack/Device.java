@@ -25,18 +25,21 @@ public class Device
 	private boolean slanting;//斜着放置
 	private List<Integer> compatibility;//不能放在一起列表
 	private int number;//物品数量
+	private int weight;
 
 	
 	public Device()
 	{		
 	}
 	
-	public Device(int id, long length, long width, long high)
+	public Device(int id, long length, long width, long high, int weight, int number)
 	{
 		this.id = id;
 		this.length = length;
 		this.width = width;
 		this.high = high;
+		this.weight = weight;
+		this.number = number;
 	}
 	
 	/**
@@ -230,17 +233,34 @@ public class Device
 	{
 		this.slanting = slanting;
 	}
+
+	/**
+	 * @return the weight
+	 */
+	public int getWeight()
+	{
+		return weight;
+	}
+
+	/**
+	 * @param weight the weight to set
+	 */
+	public void setWeight(int weight)
+	{
+		this.weight = weight;
+	}
 	
 	@Override
 	public Device clone()
 	{
-		Device dev = new Device(id, length, width, high);
+		Device dev = new Device(id, length, width, high, weight, number);
 		return dev;
 	}
 	
 	@Override
 	public String toString()
 	{
-		return "id:"+id+",length:"+length+",width:"+width+",high:"+high;
+		return "id:"+id+", length:"+length+", width:"+width+", high:"+high+", weight:"+weight+", number:"+number;
 	}
+
 }

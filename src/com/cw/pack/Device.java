@@ -32,9 +32,10 @@ public class Device
 	{		
 	}
 	
-	public Device(int id, long length, long width, long high, int weight, int number)
+	public Device(int id, String name, long length, long width, long high, int weight, int number)
 	{
 		this.id = id;
+		this.name = name;
 		this.length = length;
 		this.width = width;
 		this.high = high;
@@ -253,7 +254,7 @@ public class Device
 	@Override
 	public Device clone()
 	{
-		Device dev = new Device(id, length, width, high, weight, number);
+		Device dev = new Device(id, name, length, width, high, weight, number);
 		return dev;
 	}
 	

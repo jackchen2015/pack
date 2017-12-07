@@ -210,12 +210,12 @@ public class Utils
 	public static void main(String[] args)
 	{
 		Map<Integer, Device> map = new HashMap<Integer, Device>();
-		map.put(1, new Device(1, 120,213,122,50,100));
-		map.put(2, new Device(2, 1220,213,122,50,100));
-		map.put(3, new Device(3, 20,23,122,54,300));
-		map.put(4, new Device(4, 3320,233,122,40,300));
-		map.put(5, new Device(5, 10,2145,122,56,160));
-		map.put(6, new Device(6, 13340,2313,122,30,180));
+		map.put(1, new Device(1, "a", 120,213,122,50,100));
+		map.put(2, new Device(2, "b", 1220,213,122,50,100));
+		map.put(3, new Device(3, "c", 20,23,122,54,300));
+		map.put(4, new Device(4, "d", 3320,233,122,40,300));
+		map.put(5, new Device(5, "e", 10,2145,122,56,160));
+		map.put(6, new Device(6, "f", 13340,2313,122,30,180));
 		List<Map.Entry<Integer, Device>> list = sort(map, true);
 		for(Map.Entry<Integer, Device> e:list)
 		{

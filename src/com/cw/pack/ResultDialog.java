@@ -11,7 +11,11 @@
 
 package com.cw.pack;
 
+import com.cw.pack.render.ButtonRender;
 import java.util.List;
+import javax.swing.JLabel;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -26,6 +30,7 @@ public class ResultDialog extends javax.swing.JDialog
         super(parent, modal);
         initComponents();
 		carTxt.setText(cars.size()+"");
+		initTable(cars);
     }
 
     /** This method is called from within the constructor to
@@ -54,6 +59,10 @@ public class ResultDialog extends javax.swing.JDialog
 
         jLabel2.setText("共");
 
+        carTxt.setEditable(false);
+        carTxt.setFont(new java.awt.Font("宋体", 1, 18)); // NOI18N
+        carTxt.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
         jLabel3.setText("辆");
 
         close.setText("关闭");
@@ -72,10 +81,39 @@ public class ResultDialog extends javax.swing.JDialog
             },
             new String []
             {
-                "序号", "右侧面", "左侧面", "车尾"
+                "序号", "设备种类", "设备数量", "视图"
             }
-        ));
+        )
+        {
+            Class[] types = new Class []
+            {
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean []
+            {
+                true, false, false, true
+            };
+
+            public Class getColumnClass(int columnIndex)
+            {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex)
+            {
+                return canEdit [columnIndex];
+            }
+        });
+        carInfo.setRowHeight(20);
         jScrollPane1.setViewportView(carInfo);
+        if (carInfo.getColumnModel().getColumnCount() > 0)
+        {
+            carInfo.getColumnModel().getColumn(0).setPreferredWidth(80);
+            carInfo.getColumnModel().getColumn(0).setMaxWidth(100);
+            carInfo.getColumnModel().getColumn(3).setMinWidth(100);
+            carInfo.getColumnModel().getColumn(3).setPreferredWidth(100);
+            carInfo.getColumnModel().getColumn(3).setMaxWidth(150);
+        }
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -83,11 +121,11 @@ public class ResultDialog extends javax.swing.JDialog
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 531, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 630, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -150,5 +188,26 @@ public class ResultDialog extends javax.swing.JDialog
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
+
+	private void initTable(List<Car> cars)
+	{
+		((DefaultTableCellRenderer)carInfo.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
+
+		carInfo.getColumnModel().getColumn(3).setCellEditor(new ButtonRender(cars));//设置编辑器
+		carInfo.getColumnModel().getColumn(3).setCellRenderer(new ButtonRender(cars));			
+		for(int i=0;i<cars.size();i++)
+		{
+			List<Device> devs = cars.get(i).getPutDevices();
+			int totalDevNum = 0;
+			for(Device dev:devs)
+			{
+				totalDevNum += dev.getNumber();
+			}
+			((DefaultTableModel)carInfo.getModel()).addRow(new Object[]{});
+			carInfo.getModel().setValueAt(i+1, i, 0);
+			carInfo.getModel().setValueAt(devs.size(), i, 1);
+			carInfo.getModel().setValueAt(totalDevNum, i, 2);			
+		}
+	}
 
 }

@@ -251,11 +251,11 @@
               <Table columnCount="7" rowCount="0">
                 <Column editable="true" title="&#x9009;&#x62e9;" type="java.lang.Boolean"/>
                 <Column editable="false" title="&#x540d;&#x79f0;&#x79cd;&#x7c7b;" type="java.lang.String"/>
-                <Column editable="false" title="&#x957f;" type="java.lang.Long"/>
-                <Column editable="false" title="&#x5bbd;" type="java.lang.Long"/>
-                <Column editable="false" title="&#x9ad8;" type="java.lang.Long"/>
-                <Column editable="false" title="&#x6570;&#x91cf;" type="java.lang.Integer"/>
-                <Column editable="false" title="&#x91cd;&#x91cf;" type="java.lang.Integer"/>
+                <Column editable="false" title="&#x957f;(&#x6beb;&#x7c73;)" type="java.lang.Long"/>
+                <Column editable="false" title="&#x5bbd;(&#x6beb;&#x7c73;)" type="java.lang.Long"/>
+                <Column editable="false" title="&#x9ad8;(&#x6beb;&#x7c73;)" type="java.lang.Long"/>
+                <Column editable="false" title="&#x6570;&#x91cf;(&#x4e2a;)" type="java.lang.Integer"/>
+                <Column editable="false" title="&#x91cd;&#x91cf;(KG)" type="java.lang.Integer"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">

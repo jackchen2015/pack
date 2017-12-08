@@ -54,13 +54,13 @@ public class MainFrame extends javax.swing.JFrame
 
         importFile = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        carModel = new javax.swing.JComboBox<>();
+        carModel = new javax.swing.JComboBox<String>();
         calc = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         loadDevice = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        devModel = new javax.swing.JComboBox<>();
+        devModel = new javax.swing.JComboBox<String>();
         jLabel4 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         selectAll = new javax.swing.JCheckBox();
@@ -113,7 +113,7 @@ public class MainFrame extends javax.swing.JFrame
             },
             new String []
             {
-                "选择", "名称种类", "长", "宽", "高", "数量", "重量"
+                "选择", "名称种类", "长(毫米)", "宽(毫米)", "高(毫米)", "数量(个)", "重量(KG)"
             }
         )
         {

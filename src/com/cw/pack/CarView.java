@@ -5,6 +5,17 @@
  */
 package com.cw.pack;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.util.List;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Administrator
@@ -12,14 +23,35 @@ package com.cw.pack;
 public class CarView extends javax.swing.JPanel
 {
 
+	private JDialog dialog;
+	private Car car;
 	/**
 	 * Creates new form CarView
 	 */
-	public CarView()
+	public CarView(Car car)
 	{
 		initComponents();
+		this.car = car;
+		initCv(car);
 	}
 
+	/**
+	 * 显示对话框。
+	 * @return 用户选择结果
+	 */
+	public void showDialog()
+	{
+		dialog = new JDialog();
+
+		dialog.setName("dialog_Panel");
+		dialog.setModal(true);
+		dialog.setVisible(false);
+		dialog.getContentPane().setLayout(new BorderLayout());
+		dialog.getContentPane().add(this, BorderLayout.CENTER);
+		dialog.pack();
+		dialog.setLocationRelativeTo(null);
+		dialog.setVisible(true);
+	}		
 	/**
 	 * This method is called from within the constructor to initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is always
@@ -30,19 +62,223 @@ public class CarView extends javax.swing.JPanel
     private void initComponents()
     {
 
+        faceView = new javax.swing.JPanel();
+        close = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        devInfo = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
+        carDetails = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        faceView1 = new javax.swing.JPanel();
+        faceView2 = new javax.swing.JPanel();
+
+        faceView.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        javax.swing.GroupLayout faceViewLayout = new javax.swing.GroupLayout(faceView);
+        faceView.setLayout(faceViewLayout);
+        faceViewLayout.setHorizontalGroup(
+            faceViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 230, Short.MAX_VALUE)
+        );
+        faceViewLayout.setVerticalGroup(
+            faceViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 238, Short.MAX_VALUE)
+        );
+
+        close.setText("关闭");
+        close.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                closeActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("宋体", 1, 12)); // NOI18N
+        jLabel1.setText("详细描述");
+
+        devInfo.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][]
+            {
+
+            },
+            new String []
+            {
+                "序号", "设备名称", "数量"
+            }
+        )
+        {
+            Class[] types = new Class []
+            {
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean []
+            {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex)
+            {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex)
+            {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(devInfo);
+
+        jLabel2.setText("车辆信息");
+
+        jLabel3.setText("设备信息");
+
+        faceView1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        javax.swing.GroupLayout faceView1Layout = new javax.swing.GroupLayout(faceView1);
+        faceView1.setLayout(faceView1Layout);
+        faceView1Layout.setHorizontalGroup(
+            faceView1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 250, Short.MAX_VALUE)
+        );
+        faceView1Layout.setVerticalGroup(
+            faceView1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        faceView2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        javax.swing.GroupLayout faceView2Layout = new javax.swing.GroupLayout(faceView2);
+        faceView2.setLayout(faceView2Layout);
+        faceView2Layout.setHorizontalGroup(
+            faceView2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 230, Short.MAX_VALUE)
+        );
+        faceView2Layout.setVerticalGroup(
+            faceView2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 238, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 711, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(302, 302, 302)
+                                .addComponent(close))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(carDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 624, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(faceView, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(faceView1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(faceView2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 500, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(faceView, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(faceView2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(faceView1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(carDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(8, 8, 8)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(close)
+                .addContainerGap())
         );
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {faceView, faceView2});
+
     }// </editor-fold>//GEN-END:initComponents
+
+    private void closeActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_closeActionPerformed
+    {//GEN-HEADEREND:event_closeActionPerformed
+        dialog.dispose();
+    }//GEN-LAST:event_closeActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel carDetails;
+    private javax.swing.JButton close;
+    private javax.swing.JTable devInfo;
+    private javax.swing.JPanel faceView;
+    private javax.swing.JPanel faceView1;
+    private javax.swing.JPanel faceView2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
+
+	private void initCv(Car car)
+	{
+		((DefaultTableCellRenderer)devInfo.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
+		carDetails.setText(car.toString());
+		for(Device dev:car.getPutDevices())
+		{
+			((DefaultTableModel)devInfo.getModel()).addRow(new Object[]{dev.getId(), dev.getName(), dev.getNumber()});			
+		}
+	}
+
+     @Override
+     protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+		Graphics2D g2d = (Graphics2D) g.create();
+		int carLength = (int)car.getLength();
+		int carWidth = (int)car.getWidth();
+		int carHigh = (int)car.getHigh();
+		drawCar(g2d);
+		for(Device dev:car.getPutDevices())
+		{
+			int length = (int)dev.getLength();
+			int width = (int)dev.getWidth();
+			int high = (int)dev.getHigh();
+			for(int i=0;i<dev.getNumber();i++)
+			{
+				drawRect(g2d, dev, i);
+			}
+		}
+	}
+
+	private void drawCar(Graphics2D g2d)
+	{
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g2d.setColor(Color.GRAY);
+
+            // 1. 绘制一个矩形: 起点(30, 20), 宽80, 高100
+            g2d.drawRect(30, 20, 80, 100);		
+	}
+		
 }

@@ -261,7 +261,7 @@ public class Device
 	@Override
 	public String toString()
 	{
-		return "id:"+id+", length:"+length+", width:"+width+", high:"+high+", weight:"+weight+", number:"+number;
+		return "物品 id:"+id+ ", 物品名称:"+name+", 长:"+length+"mm, 宽:"+width+"mm, 高:"+high+"mm, 重量:"+weight+"KG, 数量:"+number+"\n";
 	}
 
 }

@@ -200,5 +200,11 @@ public class Car
 	{
 		this.loadWeight = loadWeight;
 	}
+	
+	@Override
+	public String toString()
+	{		
+		return "车辆 id:"+id+", 长:"+length+"mm, 宽:"+width+"mm, 高:"+high+"mm, 载重:"+loadWeight+"KG, 当前载重:"+ currWeight+"KG";
+	}
 
 }

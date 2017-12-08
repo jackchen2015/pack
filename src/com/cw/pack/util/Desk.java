@@ -56,7 +56,7 @@ public class Desk extends Applet
   Appearance app=new Appearance();
   Material mat=new Material();
   mat.setDiffuseColor(1.0f,1.0f,0.0f);
-  String fileName="1.jpg";
+  String fileName="image.jpg";
   String strPath=System.getProperty("user.dir")   +   java.io.File.separator+   fileName; ;
   TextureLoader texLoader1 = new TextureLoader( strPath, this);
   app.setTexture(texLoader1.getTexture());

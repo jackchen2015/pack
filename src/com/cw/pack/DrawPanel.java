@@ -15,6 +15,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.util.List;
 
 /**
  *
@@ -60,16 +61,6 @@ public class DrawPanel extends javax.swing.JPanel
         super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g.create();
 		drawCar(g2d);
-		for(Device dev:car.getPutDevices())
-		{
-			int length = (int)dev.getLength();
-			int width = (int)dev.getWidth();
-			int high = (int)dev.getHigh();
-			for(int i=0;i<dev.getNumber();i++)
-			{
-//				drawRect(g2d, dev, i);
-			}
-		}
 	}
 	private void drawCar(Graphics2D g2d)
 	{
@@ -78,19 +69,141 @@ public class DrawPanel extends javax.swing.JPanel
 		int carHigh = (int)car.getHigh();
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setColor(Color.BLACK);
-		
 		int drawCarLen = this.getWidth() - 10;
 		
 		float rate = (float)drawCarLen/carLength;
+		drawBox(g2d, car, rate);
+		
+		List<Device> devs = car.getPutDevices();
+		int carLeftLength = (int)car.getLength();
+		for(Device dev:devs)
+		{
+			g2d.setColor(Color.BLUE);
+			int cols = carWidth/(int)dev.getLength();//每条个数
+			int rows = carHigh/(int)dev.getHigh();//能放多少排
+			int levels = carLeftLength/(int)dev.getWidth();//能放多少层
+			
+			for(int i = 0;i<dev.getNumber();i++)
+			{
+				switch(type)
+				{
+					case 1://左侧面
+						int mod1 = (i+1)%cols;
+						int multi1 = (i+1)/cols;
+						int branch1 = (mod1==0)?multi1:(multi1+1);
+						int mod2 = branch1%rows;
+						int multi2 = branch1/rows;
+						int branch2 = mod2==0?multi2:(multi2+1);
+						
+						
+						g2d.drawRect(100, 50, (int)(dev.getWidth()*rate), (int)(dev.getHigh()*rate));
+						break;
+					case 2://右侧面
+						
+						g2d.drawRect(100, 50, (int)(dev.getWidth()*rate), (int)(dev.getHigh()*rate));
+						break;
+					case 3://顶侧面
+						
+						g2d.drawRect(100, 50, (int)(dev.getWidth()*rate), (int)(dev.getLength()*rate));
+						break;
+					default:
+						break;
+				}
+			}
+		}
+		
+		
+//		switch(type)
+//		{
+//			case 1://车左侧面
+//				g2d.drawString("左侧面", 10, 15);
+//				float drawCarWid = carHigh*rate;
+//				float start = (this.getHeight() - drawCarWid)/2;
+//				g2d.drawRect(5, (int)start, drawCarLen, (int)drawCarWid);
+//				int carLeftLength = (int)car.getLength();
+//				for(Device dev:devs)
+//				{
+//					int length = (int)dev.getLength();					
+//					int width = (int)dev.getWidth();
+//					int high = (int)dev.getHigh();
+//					
+//					int devN = dev.getNumber();
+//					
+//					int cols = carWidth/length;//每条个数
+//					int rows = carHigh/high;//能放多少排
+//					int levels = carLeftLength/width;//能放多少层
+//					int zRows = devN/(cols*rows);
+//
+//					int m = devN%cols;
+//					int xyRows = (m==0?devN/cols:(devN/cols+1));//可以摆多少条					
+//					
+//					for(int i=0;i<devN;i++)
+//					{
+//						int left = (i+1)%cols;
+//						int nx = left==0?(i+1)/cols:((i+1)/cols+1);//决定在哪一条
+//						int leftx = nx%rows;
+//						int levelx = leftx==0?nx/rows:(nx/rows+1);
+//						int putx = carLength - carLeftLength+(levelx-1)*width;
+//						if(leftx==0)
+//						{
+//							carLeftLength = carLeftLength - (int)dev.getLength();
+//						}
+//						g2d.drawRect(putx, (levels-leftx)*high, width, high);
+//					}
+//					
+//					for(int i=0;i<xyRows;i++)
+//					{
+//						int n = xyRows%rows;
+//						int hrows = (n==0?xyRows/rows:(xyRows/rows+1));//纵向条数
+//						
+//					}
+//				
+//				}
+//				
+//				break;
+//			case 2://车右侧面
+//				g2d.drawString("右侧面", 10, 15);
+//				float drawCarWid1 = carHigh*rate;
+//				float start1 = (this.getHeight() - drawCarWid1)/2;
+//				g2d.drawRect(5, (int)start1, drawCarLen, (int)drawCarWid1);
+//				
+//				
+//				
+//				
+//				break;
+//			case 3://车顶侧面
+//				g2d.drawString("顶侧面", 10, 15);
+//				float drawCarWid2 = carWidth*rate;
+//				float start2 = (this.getHeight() - drawCarWid2)/2;
+//				g2d.drawRect(5, (int)start2, drawCarLen, (int)drawCarWid2);
+//				
+//				
+//				
+//				break;
+//			default:
+//				break;
+//		}
+			
+
+        // 1. 绘制一个矩形: 起点(30, 20), 宽80, 高100
+//        g2d.drawRect(30, 20, 80, 100);
+//		g2d.drawRect(120, 20, 80, 100);
+	}
+	
+	private void drawBox(Graphics2D g2d, Car car, float rate)
+	{
+		int carLength = (int)car.getLength();
+		int carWidth = (int)car.getWidth();
+		int carHigh = (int)car.getHigh();
+
+		int drawCarLen = this.getWidth() - 10;
 		switch(type)
 		{
 			case 1://车左侧面
 				g2d.drawString("左侧面", 10, 15);
 				float drawCarWid = carHigh*rate;
 				float start = (this.getHeight() - drawCarWid)/2;
-				g2d.drawRect(5, (int)start, drawCarLen, (int)drawCarWid);
-				
-				
+				g2d.drawRect(5, (int)start, drawCarLen, (int)drawCarWid);				
 				break;
 			case 2://车右侧面
 				g2d.drawString("右侧面", 10, 15);
@@ -106,12 +219,7 @@ public class DrawPanel extends javax.swing.JPanel
 				break;
 			default:
 				break;
-		}
-			
-
-        // 1. 绘制一个矩形: 起点(30, 20), 宽80, 高100
-//        g2d.drawRect(30, 20, 80, 100);
-//		g2d.drawRect(120, 20, 80, 100);
+		}		
 	}
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

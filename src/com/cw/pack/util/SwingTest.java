@@ -9,8 +9,8 @@ package com.cw.pack.util;
  *
  * @author Administrator
  */
-import com.sun.image.codec.jpeg.JPEGCodec;
-import com.sun.image.codec.jpeg.JPEGImageEncoder;
+//import com.sun.image.codec.jpeg.JPEGCodec;
+//import com.sun.image.codec.jpeg.JPEGImageEncoder;
 import java.awt.BorderLayout;
 import java.awt.GraphicsConfigTemplate;
 import java.awt.GraphicsDevice;
@@ -21,7 +21,10 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
+import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 import javax.media.j3d.Alpha;
 import javax.media.j3d.AmbientLight;
@@ -486,18 +489,27 @@ public class SwingTest extends JPanel implements ActionListener {
     System.out.println("Rendered to offscreen");
 
     try {
-      FileOutputStream fileOut = new FileOutputStream("image.jpg");
-
-      JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(fileOut);
-      encoder.encode(imageComponent.getImage());
-
-      fileOut.flush();
-      fileOut.close();
+//      FileOutputStream fileOut = new FileOutputStream("image.jpg");
+//
+//      JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(fileOut);
+//      encoder.encode(imageComponent.getImage());
+//
+//      fileOut.flush();
+//      fileOut.close();
+		saveImage(imageComponent.getImage(),"image.jpg");
     } catch (Exception e) {
       System.err.println("Failed to save image: " + e);
     }
 
     System.out.println("Saved image.");
+  }
+  
+  static void saveImage(BufferedImage dstImage, String dstName) throws IOException {  
+    String formatName = dstName.substring(dstName.lastIndexOf(".") + 1);  
+    //FileOutputStream out = new FileOutputStream(dstName);  
+    //JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);  
+    //encoder.encode(dstImage);  
+    ImageIO.write(dstImage, /*"GIF"*/ formatName /* format desired */ , new File(dstName) /* target */ );
   }
 
   /**

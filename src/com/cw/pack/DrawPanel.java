@@ -12,6 +12,7 @@
 package com.cw.pack;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -61,6 +62,8 @@ public class DrawPanel extends javax.swing.JPanel
      protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g.create();
+		Font defaultFont = g2d.getFont();
+		g2d.setFont(new Font(defaultFont.getName(), defaultFont.getStyle(), 11));
 		drawCar(g2d);
 	}
 	private void drawCar(Graphics2D g2d)
@@ -87,7 +90,7 @@ public class DrawPanel extends javax.swing.JPanel
 			int cols = carWidth/(int)dev.getLength();//每条个数
 			int rows = carHigh/(int)dev.getHigh();//能放多少排
 			int levels = carLeftLength/(int)dev.getWidth();//能放多少层
-			y = (int)((car.getHigh() - dev.getHigh())*rate + diff.getTop());
+			y = (getHeight()-(int)(dev.getHigh()*rate)-diff.getTop());
 			z = diff.getDistance();
 			
 			boolean needDraw = true;
@@ -109,12 +112,12 @@ public class DrawPanel extends javax.swing.JPanel
 						{
 							x += dev.getWidth()*rate;
 						}
-						y = (int)(car.getHigh()*rate +diff.getTop() - dev.getHigh()*rate);
+						y = (getHeight()-(int)(dev.getHigh()*rate)-diff.getTop());//(int)(car.getHigh()*rate +diff.getTop() - dev.getHigh()*rate)
 						z = diff.getDistance();
 					}
 					else
 					{
-						y -= dev.getHigh() * rate;
+						y -= (int)(dev.getHigh() * rate);
 						z = diff.getDistance();
 					}
 				}
@@ -138,11 +141,11 @@ public class DrawPanel extends javax.swing.JPanel
 		int carLength = (int)car.getLength();
 		int carWidth = (int)car.getWidth();
 		int carHigh = (int)car.getHigh();
-
+		//用于左右侧面
 		float drawCarWid = carHigh*rate;
 		float start = (this.getHeight() - drawCarWid)/2;
 		diff.setTop((int)start);
-		
+		//用于顶侧面
 		float drawCarWid2 = carWidth*rate;
 		float start2 = (this.getHeight() - drawCarWid2)/2;
 		diff.setDistance((int)start2);
@@ -151,7 +154,7 @@ public class DrawPanel extends javax.swing.JPanel
 		switch(type)
 		{
 			case 1://车左侧面
-				g2d.drawString("左侧面", 10, 15);
+				g2d.drawString("左侧面", this.getWidth()/2-20, 15);
 				g2d.drawRect(di, (int)start, drawCarLen, (int)drawCarWid);				
 				break;
 			case 2://车右侧面
@@ -159,7 +162,7 @@ public class DrawPanel extends javax.swing.JPanel
 				g2d.drawRect(di, (int)start, drawCarLen, (int)drawCarWid);
 				break;
 			case 3://车顶侧面
-				g2d.drawString("顶侧面", 10, 15);
+				g2d.drawString("顶侧面", this.getWidth()/2-20, 15);
 				g2d.drawRect(di, (int)start2, drawCarLen, (int)drawCarWid2);
 				break;
 			default:
@@ -195,7 +198,7 @@ public class DrawPanel extends javax.swing.JPanel
 				break;
 		}
 		g2d.setColor(Color.WHITE);
-		g2d.drawString(loc+"", x+devWidth/2, startPoint+devHight/2);
+		g2d.drawString(loc+"", x+devWidth/2-5, startPoint+devHight/2);
 		g2d.setColor(beforColor);
 	}
     // Variables declaration - do not modify//GEN-BEGIN:variables

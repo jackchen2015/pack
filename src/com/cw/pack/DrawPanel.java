@@ -84,9 +84,9 @@ public class DrawPanel extends javax.swing.JPanel
 		for(Device dev:devs)
 		{
 			g2d.setColor(colors[count++]);
-//			int cols = carWidth/(int)dev.getLength();//每条个数
-//			int rows = carHigh/(int)dev.getHigh();//能放多少排
-//			int levels = carLeftLength/(int)dev.getWidth();//能放多少层
+			int cols = carWidth/(int)dev.getLength();//每条个数
+			int rows = carHigh/(int)dev.getHigh();//能放多少排
+			int levels = carLeftLength/(int)dev.getWidth();//能放多少层
 			y = (int)((car.getHigh() - dev.getHigh())*rate + diff.getTop());
 			z = diff.getDistance();
 			for(int i = 0;i<dev.getNumber();i++)
@@ -94,12 +94,16 @@ public class DrawPanel extends javax.swing.JPanel
 				//根据i求x,y,z 
 				//x 为左侧面 物体左上角的坐标
 				
-				drawDevice(g2d, x, y, z, diff, car, dev, rate);
-				if(z-diff.getDistance()+dev.getLength()*rate>car.getWidth()*rate)
+				drawDevice(i+1, g2d, x, y, z, diff, car, dev, rate);
+				//确定下一个的位置
+				if((i+1)%cols==0)// z-diff.getDistance()+dev.getLength()*rate-car.getWidth()*rate>0
 				{//新起一条
-					if(y-diff.getTop()-dev.getHigh()*rate<0)//超出一排
+					if((i+1)%(cols*rows)==0)//超出一排// y-diff.getTop()-dev.getHigh()*rate<0
 					{
-						x += dev.getWidth()*rate;
+						if(i<dev.getNumber()-1)
+						{
+							x += dev.getWidth()*rate;
+						}
 						y = (int)(car.getHigh()*rate +diff.getTop() - dev.getHigh()*rate);
 						z = diff.getDistance();
 					}
@@ -112,6 +116,10 @@ public class DrawPanel extends javax.swing.JPanel
 				else
 				{
 					z += dev.getLength()*rate;
+				}
+				if(i==dev.getNumber()-1)//最后一个
+				{
+					x += dev.getWidth()*rate;
 				}
 			}
 		}	
@@ -126,28 +134,27 @@ public class DrawPanel extends javax.swing.JPanel
 		int carWidth = (int)car.getWidth();
 		int carHigh = (int)car.getHigh();
 
+		float drawCarWid = carHigh*rate;
+		float start = (this.getHeight() - drawCarWid)/2;
+		diff.setTop((int)start);
+		
+		float drawCarWid2 = carWidth*rate;
+		float start2 = (this.getHeight() - drawCarWid2)/2;
+		diff.setDistance((int)start2);
+
 		int drawCarLen = this.getWidth() - 10;
 		switch(type)
 		{
 			case 1://车左侧面
 				g2d.drawString("左侧面", 10, 15);
-				float drawCarWid = carHigh*rate;
-				float start = (this.getHeight() - drawCarWid)/2;
-				diff.setTop((int)start);
 				g2d.drawRect(di, (int)start, drawCarLen, (int)drawCarWid);				
 				break;
 			case 2://车右侧面
 				g2d.drawString("右侧面", 10, 15);
-				float drawCarWid1 = carHigh*rate;
-				float start1 = (this.getHeight() - drawCarWid1)/2;
-				diff.setTop((int)start1);
-				g2d.drawRect(di, (int)start1, drawCarLen, (int)drawCarWid1);
+				g2d.drawRect(di, (int)start, drawCarLen, (int)drawCarWid);
 				break;
 			case 3://车顶侧面
 				g2d.drawString("顶侧面", 10, 15);
-				float drawCarWid2 = carWidth*rate;
-				float start2 = (this.getHeight() - drawCarWid2)/2;
-				diff.setDistance((int)start2);
 				g2d.drawRect(di, (int)start2, drawCarLen, (int)drawCarWid2);
 				break;
 			default:
@@ -156,18 +163,24 @@ public class DrawPanel extends javax.swing.JPanel
 		return diff;
 	}
 	
-	private void drawDevice(Graphics2D g2d, int x, int y, int z, Diff diff, Car car, Device dev, float rate)
+	private void drawDevice(int loc, Graphics2D g2d, int x, int y, int z, Diff diff, Car car, Device dev, float rate)
 	{
+		Color beforColor = g2d.getColor();
 		switch(type)
 		{
 			case 1://左侧面
-				g2d.fillRect(x, y, (int)(dev.getWidth()*rate), (int)(dev.getHigh()*rate));
+				int devWidth = (int)(dev.getWidth()*rate)-1;
+				int devHight = (int)(dev.getHigh()*rate)-1;
+				g2d.fillRect(x, y, devWidth, devHight);
+				g2d.setColor(Color.WHITE);
+				g2d.drawString(loc+"", x+devWidth/2, y+devHight/2);
+				g2d.setColor(beforColor);
 				break;
 			case 2://右侧面
-				g2d.fillRect((int)(car.getLength()*rate+diff.getLeft()*2-x), y, (int)(dev.getWidth()*rate), (int)(dev.getHigh()*rate));
+				g2d.fillRect((int)(car.getLength()*rate+diff.getLeft()*2-x-dev.getWidth()*rate), y, (int)(dev.getWidth()*rate), (int)(dev.getHigh()*rate));
 				break;
 			case 3://顶侧面
-				g2d.fillRect(x, (int)(car.getWidth()*rate+2*diff.getDistance()-dev.getLength()*rate-z), (int)(dev.getWidth()*rate), (int)(dev.getLength()*rate));
+				g2d.fillRect(x, (int)(car.getWidth()*rate+diff.getDistance()*2-dev.getLength()*rate-z), (int)(dev.getWidth()*rate)-1, (int)(dev.getLength()*rate)-1);
 				break;
 			default:
 				break;

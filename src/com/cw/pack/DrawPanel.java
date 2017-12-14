@@ -89,12 +89,17 @@ public class DrawPanel extends javax.swing.JPanel
 			int levels = carLeftLength/(int)dev.getWidth();//能放多少层
 			y = (int)((car.getHigh() - dev.getHigh())*rate + diff.getTop());
 			z = diff.getDistance();
+			
+			boolean needDraw = true;
 			for(int i = 0;i<dev.getNumber();i++)
 			{
 				//根据i求x,y,z 
 				//x 为左侧面 物体左上角的坐标
-				
-				drawDevice(i+1, g2d, x, y, z, diff, car, dev, rate);
+				needDraw = (i%cols==0)?true:false;
+				if(needDraw||type!=1)
+				{
+					drawDevice(i+1, g2d, x, y, z, diff, car, dev, rate);
+				}				
 				//确定下一个的位置
 				if((i+1)%cols==0)// z-diff.getDistance()+dev.getLength()*rate-car.getWidth()*rate>0
 				{//新起一条
@@ -166,25 +171,32 @@ public class DrawPanel extends javax.swing.JPanel
 	private void drawDevice(int loc, Graphics2D g2d, int x, int y, int z, Diff diff, Car car, Device dev, float rate)
 	{
 		Color beforColor = g2d.getColor();
+		int devWidth = 0;
+		int devHight = 0;
+		int startPoint = 0;
 		switch(type)
 		{
 			case 1://左侧面
-				int devWidth = (int)(dev.getWidth()*rate)-1;
-				int devHight = (int)(dev.getHigh()*rate)-1;
+				devWidth = (int)(dev.getWidth()*rate)-1;
+				devHight = (int)(dev.getHigh()*rate)-1;
+				startPoint = y;
 				g2d.fillRect(x, y, devWidth, devHight);
-				g2d.setColor(Color.WHITE);
-				g2d.drawString(loc+"", x+devWidth/2, y+devHight/2);
-				g2d.setColor(beforColor);
 				break;
 			case 2://右侧面
 				g2d.fillRect((int)(car.getLength()*rate+diff.getLeft()*2-x-dev.getWidth()*rate), y, (int)(dev.getWidth()*rate), (int)(dev.getHigh()*rate));
 				break;
 			case 3://顶侧面
-				g2d.fillRect(x, (int)(car.getWidth()*rate+diff.getDistance()*2-dev.getLength()*rate-z), (int)(dev.getWidth()*rate)-1, (int)(dev.getLength()*rate)-1);
+				devWidth = (int)(dev.getWidth()*rate)-1;
+				devHight = (int)(dev.getLength()*rate)-1;
+				startPoint = (int)(car.getWidth()*rate+diff.getDistance()*2-dev.getLength()*rate-z);
+				g2d.fillRect(x, startPoint, devWidth, devHight);
 				break;
 			default:
 				break;
 		}
+		g2d.setColor(Color.WHITE);
+		g2d.drawString(loc+"", x+devWidth/2, startPoint+devHight/2);
+		g2d.setColor(beforColor);
 	}
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

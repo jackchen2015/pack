@@ -70,7 +70,6 @@ public class CarView extends javax.swing.JPanel
         jLabel2 = new javax.swing.JLabel();
         carDetails = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        faceView1 = new DrawPanel(2, car);
         faceView2 = new DrawPanel(3, car);
 
         faceView.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -79,7 +78,7 @@ public class CarView extends javax.swing.JPanel
         faceView.setLayout(faceViewLayout);
         faceViewLayout.setHorizontalGroup(
             faceViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 250, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         faceViewLayout.setVerticalGroup(
             faceViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -134,26 +133,13 @@ public class CarView extends javax.swing.JPanel
 
         jLabel3.setText("设备信息");
 
-        faceView1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        javax.swing.GroupLayout faceView1Layout = new javax.swing.GroupLayout(faceView1);
-        faceView1.setLayout(faceView1Layout);
-        faceView1Layout.setHorizontalGroup(
-            faceView1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 250, Short.MAX_VALUE)
-        );
-        faceView1Layout.setVerticalGroup(
-            faceView1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
         faceView2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         javax.swing.GroupLayout faceView2Layout = new javax.swing.GroupLayout(faceView2);
         faceView2.setLayout(faceView2Layout);
         faceView2Layout.setHorizontalGroup(
             faceView2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 250, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         faceView2Layout.setVerticalGroup(
             faceView2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -167,8 +153,6 @@ public class CarView extends javax.swing.JPanel
             .addGroup(layout.createSequentialGroup()
                 .addComponent(faceView, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(faceView1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(faceView2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -179,7 +163,7 @@ public class CarView extends javax.swing.JPanel
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(close))
-                    .addComponent(jScrollPane2)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 764, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -195,8 +179,7 @@ public class CarView extends javax.swing.JPanel
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(faceView, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(faceView2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(faceView1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(faceView2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -224,7 +207,6 @@ public class CarView extends javax.swing.JPanel
     private javax.swing.JButton close;
     private javax.swing.JTable devInfo;
     private javax.swing.JPanel faceView;
-    private javax.swing.JPanel faceView1;
     private javax.swing.JPanel faceView2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

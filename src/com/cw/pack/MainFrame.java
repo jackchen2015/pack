@@ -5,15 +5,15 @@
  */
 package com.cw.pack;
 
+import com.cw.pack.dialog.CarDialog;
+import com.cw.pack.dialog.WeaponDialog;
+import com.cw.pack.dialog.WeaponTypeDialog;
 import com.cw.pack.util.Utils;
-import java.io.FileInputStream;
-import java.io.IOException;
+import com.cw.pack.util.db.DBHelper;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -40,6 +40,7 @@ public class MainFrame extends javax.swing.JFrame
 	{
 		initComponents();
 		((DefaultTableCellRenderer)loadDevice.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
+		initFrame();
 	}
 
 	/**
@@ -58,7 +59,7 @@ public class MainFrame extends javax.swing.JFrame
         loadDevice = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        weaponTypeCmb = new javax.swing.JComboBox<>();
+        weaponTypeCmb = new javax.swing.JComboBox<Model>();
         jLabel4 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         selectAll = new javax.swing.JCheckBox();
@@ -72,12 +73,12 @@ public class MainFrame extends javax.swing.JFrame
         jSeparator4 = new javax.swing.JSeparator();
         jSeparator5 = new javax.swing.JSeparator();
         jLabel10 = new javax.swing.JLabel();
-        weaponComb = new javax.swing.JComboBox<>();
+        weaponComb = new javax.swing.JComboBox<Weapon>();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         carTable = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        carModel = new javax.swing.JComboBox<>();
+        carModel = new javax.swing.JComboBox<Car>();
         jLabel5 = new javax.swing.JLabel();
         carNum = new javax.swing.JTextField();
         add = new javax.swing.JButton();
@@ -92,7 +93,7 @@ public class MainFrame extends javax.swing.JFrame
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("装箱主界面");
 
-        importFile.setText("请导入设备文件");
+        importFile.setText("请导入武器弹药文件");
         importFile.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -146,7 +147,7 @@ public class MainFrame extends javax.swing.JFrame
 
         jLabel2.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("设备装箱平台");
+        jLabel2.setText("武器装箱平台");
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel3.setText("武器类别");
@@ -168,6 +169,13 @@ public class MainFrame extends javax.swing.JFrame
         jLabel7.setText("数量");
 
         insert.setText("增加");
+        insert.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                insertActionPerformed(evt);
+            }
+        });
 
         update.setText("修改");
 
@@ -260,14 +268,35 @@ public class MainFrame extends javax.swing.JFrame
 
         weaponType.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cw/pack/resource/weaponType.jpg"))); // NOI18N
         weaponType.setText("武器类别维护");
+        weaponType.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                weaponTypeActionPerformed(evt);
+            }
+        });
         jMenu1.add(weaponType);
 
         weapon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cw/pack/resource/weapon.jpg"))); // NOI18N
         weapon.setText("武器维护");
+        weapon.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                weaponActionPerformed(evt);
+            }
+        });
         jMenu1.add(weapon);
 
         carType.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/cw/pack/resource/carType.jpg"))); // NOI18N
         carType.setText("车辆维护");
+        carType.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                carTypeActionPerformed(evt);
+            }
+        });
         jMenu1.add(carType);
 
         jMenuBar1.add(jMenu1);
@@ -392,14 +421,14 @@ public class MainFrame extends javax.swing.JFrame
 
     private void calcActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_calcActionPerformed
     {//GEN-HEADEREND:event_calcActionPerformed
-		Map<Integer,Device> allDevs = new HashMap<Integer,Device>();
+		Map<Integer,Weapon> allDevs = new HashMap<Integer,Weapon>();
 		
 		int id = 0;
 		for(int i=0;i<loadDevice.getRowCount();i++)
 		{
 			if((boolean)loadDevice.getValueAt(i, 0))
 			{
-				Device d = new Device(id++, loadDevice.getValueAt(i, 1)+"", Long.parseLong(loadDevice.getValueAt(i, 2)+""), 
+				Weapon d = new Weapon(id++, loadDevice.getValueAt(i, 1)+"", Long.parseLong(loadDevice.getValueAt(i, 2)+""), 
 						Long.parseLong(loadDevice.getValueAt(i, 3)+""), Long.parseLong(loadDevice.getValueAt(i, 4)+""), (int)loadDevice.getValueAt(i, 6), 
 						(int)loadDevice.getValueAt(i, 5));
 				allDevs.put(id, d);
@@ -418,9 +447,9 @@ public class MainFrame extends javax.swing.JFrame
 		car.setWidth(2300);
 		car.setHigh(2100);
 		car.setLoadWeight(30000);
-		for(Map.Entry<Integer, Device> devEntry:allDevs.entrySet())
+		for(Map.Entry<Integer, Weapon> devEntry:allDevs.entrySet())
 		{
-			Device dev = devEntry.getValue();
+			Weapon dev = devEntry.getValue();
 			if(dev.getLength()>car.getWidth())//斜放
 			{
 				long l = (long)java.lang.Math.sqrt(dev.getLength()*dev.getLength()-car.getWidth()*car.getWidth())+dev.getWidth();
@@ -430,14 +459,14 @@ public class MainFrame extends javax.swing.JFrame
 			}
 		}
 		
-		List<Map.Entry<Integer, Device>> sortResult = Utils.sort(allDevs, true);//逆序排列
+		List<Map.Entry<Integer, Weapon>> sortResult = Utils.sort(allDevs, true);//逆序排列
 		List<Car> cars = new ArrayList<Car>();
 		Utils.load(cars, sortResult, car);
 		for(Car c:cars)
 		{
 			System.out.println("car id:"+c.getId());
-			List<Device> ds = c.getPutDevices();
-			for(Device d:ds)
+			List<Weapon> ds = c.getPutDevices();
+			for(Weapon d:ds)
 			{
 				System.out.println("---->dev id:"+d.getId()+", number is:"+d.getNumber());
 			}
@@ -490,6 +519,29 @@ public class MainFrame extends javax.swing.JFrame
 			loadDevice.getModel().setValueAt(selectAll.isSelected(), i, 0);
 		}
     }//GEN-LAST:event_selectAllActionPerformed
+
+    private void insertActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_insertActionPerformed
+    {//GEN-HEADEREND:event_insertActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_insertActionPerformed
+
+    private void weaponTypeActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_weaponTypeActionPerformed
+    {//GEN-HEADEREND:event_weaponTypeActionPerformed
+        WeaponTypeDialog wtd = new WeaponTypeDialog(this, true);
+		wtd.setVisible(true);
+    }//GEN-LAST:event_weaponTypeActionPerformed
+
+    private void weaponActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_weaponActionPerformed
+    {//GEN-HEADEREND:event_weaponActionPerformed
+        WeaponDialog wd = new WeaponDialog(this, true);
+		wd.setVisible(true);
+    }//GEN-LAST:event_weaponActionPerformed
+
+    private void carTypeActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_carTypeActionPerformed
+    {//GEN-HEADEREND:event_carTypeActionPerformed
+        CarDialog car = new CarDialog(this, true);
+		car.setVisible(true);
+    }//GEN-LAST:event_carTypeActionPerformed
 
 	private String getStringCellValue(HSSFCell cell)
 	{
@@ -580,7 +632,7 @@ public class MainFrame extends javax.swing.JFrame
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton add;
     private javax.swing.JButton calc;
-    private javax.swing.JComboBox<String> carModel;
+    private javax.swing.JComboBox<Car> carModel;
     private javax.swing.JTextField carNum;
     private javax.swing.JTable carTable;
     private javax.swing.JMenuItem carType;
@@ -611,8 +663,25 @@ public class MainFrame extends javax.swing.JFrame
     private javax.swing.JCheckBox selectAll;
     private javax.swing.JButton update;
     private javax.swing.JMenuItem weapon;
-    private javax.swing.JComboBox<String> weaponComb;
+    private javax.swing.JComboBox<Weapon> weaponComb;
     private javax.swing.JMenuItem weaponType;
-    private javax.swing.JComboBox<String> weaponTypeCmb;
+    private javax.swing.JComboBox<Model> weaponTypeCmb;
     // End of variables declaration//GEN-END:variables
+
+	private void initFrame()
+	{
+		DBHelper helper =new DBHelper();
+		List<Model> allModels = helper.getAllModel();
+		List<Weapon> allWeapons = helper.getAllWeapon();
+		List<Car> allCars = helper.getAllCar();
+		for(Model model:allModels)
+		{
+			weaponTypeCmb.addItem(model);
+		}
+		for(Car car:allCars)
+		{
+			carModel.addItem(car);
+		}
+		
+	}
 }

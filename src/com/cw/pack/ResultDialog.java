@@ -197,16 +197,13 @@ public class ResultDialog extends javax.swing.JDialog
 		carInfo.getColumnModel().getColumn(3).setCellRenderer(new ButtonRender(cars));			
 		for(int i=0;i<cars.size();i++)
 		{
-			List<Device> devs = cars.get(i).getPutDevices();
+			List<Weapon> devs = cars.get(i).getPutDevices();
 			int totalDevNum = 0;
-			for(Device dev:devs)
+			for(Weapon dev:devs)
 			{
 				totalDevNum += dev.getNumber();
 			}
-			((DefaultTableModel)carInfo.getModel()).addRow(new Object[]{});
-			carInfo.getModel().setValueAt(i+1, i, 0);
-			carInfo.getModel().setValueAt(devs.size(), i, 1);
-			carInfo.getModel().setValueAt(totalDevNum, i, 2);			
+			((DefaultTableModel)carInfo.getModel()).addRow(new Object[]{i+1, devs.size(),totalDevNum});
 		}
 	}
 

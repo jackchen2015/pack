@@ -24,7 +24,7 @@ public class Car
 	private int currWeight;
 	private int loadWeight;
 	
-	private List<Device> putDevices = new ArrayList<Device>();
+	private List<Weapon> putDevices = new ArrayList<Weapon>();
 	private long leftLength;
 	
 	public Car()
@@ -43,7 +43,7 @@ public class Car
 	/**
 	 * @return the putDevices
 	 */
-	public List<Device> getPutDevices()
+	public List<Weapon> getPutDevices()
 	{
 		return putDevices;
 	}
@@ -51,7 +51,7 @@ public class Car
 	/**
 	 * @param putDevices the putDevices to set
 	 */
-	public void setPutDevices(List<Device> putDevices)
+	public void setPutDevices(List<Weapon> putDevices)
 	{
 		this.putDevices = putDevices;
 	}
@@ -204,7 +204,7 @@ public class Car
 	@Override
 	public String toString()
 	{		
-		return "车辆 id:"+id+", 长:"+length+"mm, 宽:"+width+"mm, 高:"+high+"mm, 载重:"+loadWeight+"KG, 当前载重:"+ currWeight+"KG";
+		return name;
 	}
 
 }

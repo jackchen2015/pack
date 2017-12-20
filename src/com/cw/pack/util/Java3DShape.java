@@ -16,7 +16,6 @@ import javax.media.j3d.DirectionalLight;
 import javax.vecmath.Color3f;
 import javax.vecmath.Point3d;
 import javax.vecmath.Vector3f;
-import com.sun.j3d.utils.geometry.Cone;
 import com.sun.j3d.utils.universe.SimpleUniverse;
 /**
  *

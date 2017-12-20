@@ -78,13 +78,13 @@ public class DrawPanel extends javax.swing.JPanel
 		float rate = (float)drawCarLen/carLength;
 		Diff diff = drawBox(g2d, car, rate);
 		
-		List<Device> devs = car.getPutDevices();
+		List<Weapon> devs = car.getPutDevices();
 		int carLeftLength = (int)car.getLength();
 		int x = diff.getLeft();//real x
 		int y = diff.getTop();
 		int z = diff.getDistance();
 		int count = 0;
-		for(Device dev:devs)
+		for(Weapon dev:devs)
 		{
 			g2d.setColor(colors[count++]);
 			int cols = carWidth/(int)dev.getLength();//每条个数
@@ -171,7 +171,7 @@ public class DrawPanel extends javax.swing.JPanel
 		return diff;
 	}
 	
-	private void drawDevice(int loc, Graphics2D g2d, int x, int y, int z, Diff diff, Car car, Device dev, float rate)
+	private void drawDevice(int loc, Graphics2D g2d, int x, int y, int z, Diff diff, Car car, Weapon dev, float rate)
 	{
 		Color beforColor = g2d.getColor();
 		int devWidth = 0;

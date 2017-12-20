@@ -6,11 +6,6 @@
 package com.cw.pack;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -218,7 +213,7 @@ public class CarView extends javax.swing.JPanel
 	{
 		((DefaultTableCellRenderer)devInfo.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
 		carDetails.setText(car.toString());
-		for(Device dev:car.getPutDevices())
+		for(Weapon dev:car.getPutDevices())
 		{
 			((DefaultTableModel)devInfo.getModel()).addRow(new Object[]{dev.getId(), dev.getName(), dev.getNumber()});			
 		}

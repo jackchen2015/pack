@@ -6,7 +6,7 @@
 package com.cw.pack.util;
 
 import com.cw.pack.Car;
-import com.cw.pack.Device;
+import com.cw.pack.Weapon;
 import java.io.File;
 import java.io.FileInputStream;
 import java.text.DecimalFormat;
@@ -40,14 +40,14 @@ public class Utils
 	// 格式化数字  
 	private static DecimalFormat nf = new DecimalFormat("0.00");
 	
-	public static List<Map.Entry<Integer, Device>> sort(Map<Integer, Device> maps, final boolean desc)
+	public static List<Map.Entry<Integer, Weapon>> sort(Map<Integer, Weapon> maps, final boolean desc)
 	{
 		//将map.entrySet()转换成list  
-        List<Map.Entry<Integer, Device>> list = new ArrayList<Map.Entry<Integer, Device>>(maps.entrySet());  
-        Collections.sort(list, new Comparator<Map.Entry<Integer, Device>>() {  
+        List<Map.Entry<Integer, Weapon>> list = new ArrayList<Map.Entry<Integer, Weapon>>(maps.entrySet());  
+        Collections.sort(list, new Comparator<Map.Entry<Integer, Weapon>>() {  
             //降序排序  
             @Override  
-            public int compare(Entry<Integer, Device> o1, Entry<Integer, Device> o2) {  
+            public int compare(Entry<Integer, Weapon> o1, Entry<Integer, Weapon> o2) {  
                 //return o1.getValue().compareTo(o2.getValue());  
 				long o1Val = o1.getValue().getLength()*o1.getValue().getWidth()*o1.getValue().getHigh();
 				long o2Val = o2.getValue().getLength()*o2.getValue().getWidth()*o2.getValue().getHigh();
@@ -58,7 +58,7 @@ public class Utils
 		return list;
 	}
 	
-	public static int getMaxNums(Device dev, Car car)
+	public static int getMaxNums(Weapon dev, Car car)
 	{
 		long length = car.getLeftLength();
 		int currWeight = car.getCurrWeight();
@@ -69,16 +69,16 @@ public class Utils
 		return maxCanLoad1>maxCanLoad2?maxCanLoad2:maxCanLoad1;
 	}
 	
-	public static void load(List<Car> cars, List<Map.Entry<Integer, Device>> sortResult, Car car)
+	public static void load(List<Car> cars, List<Map.Entry<Integer, Weapon>> sortResult, Car car)
 	{
 		boolean isMore = false;
-		for(Map.Entry<Integer, Device> entry:sortResult)
+		for(Map.Entry<Integer, Weapon> entry:sortResult)
 		{
-			Device dev = entry.getValue();
+			Weapon dev = entry.getValue();
 			int maxNum = getMaxNums(dev, car);
 			if(dev.getNumber()>maxNum)//设备数量大于可以装载的数量
 			{
-				Device devClone = dev.clone();
+				Weapon devClone = dev.clone();
 				dev.setNumber(dev.getNumber()-maxNum);
 				devClone.setNumber(maxNum);
 				car.getPutDevices().add(devClone);
@@ -209,15 +209,15 @@ public class Utils
 	
 	public static void main(String[] args)
 	{
-		Map<Integer, Device> map = new HashMap<Integer, Device>();
-		map.put(1, new Device(1, "a", 120,213,122,50,100));
-		map.put(2, new Device(2, "b", 1220,213,122,50,100));
-		map.put(3, new Device(3, "c", 20,23,122,54,300));
-		map.put(4, new Device(4, "d", 3320,233,122,40,300));
-		map.put(5, new Device(5, "e", 10,2145,122,56,160));
-		map.put(6, new Device(6, "f", 13340,2313,122,30,180));
-		List<Map.Entry<Integer, Device>> list = sort(map, true);
-		for(Map.Entry<Integer, Device> e:list)
+		Map<Integer, Weapon> map = new HashMap<Integer, Weapon>();
+		map.put(1, new Weapon(1, "a", 120,213,122,50,100));
+		map.put(2, new Weapon(2, "b", 1220,213,122,50,100));
+		map.put(3, new Weapon(3, "c", 20,23,122,54,300));
+		map.put(4, new Weapon(4, "d", 3320,233,122,40,300));
+		map.put(5, new Weapon(5, "e", 10,2145,122,56,160));
+		map.put(6, new Weapon(6, "f", 13340,2313,122,30,180));
+		List<Map.Entry<Integer, Weapon>> list = sort(map, true);
+		for(Map.Entry<Integer, Weapon> e:list)
 		{
 			System.out.println(e);
 		}

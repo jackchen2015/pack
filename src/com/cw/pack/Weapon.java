@@ -4,18 +4,15 @@
  * and open the template in the editor.
  */
 package com.cw.pack;
-
-import java.util.List;
-
 /**
  *
  * @author Administrator
  */
-public class Device
+public class Weapon
 {
 	private int id;//编号
-	private String model;//型号
 	private String name;//名称
+	private Model model;//型号种类
 	private long length;//长
 	private long width;//宽
 	private long high;//高
@@ -23,16 +20,15 @@ public class Device
 	private boolean vertical;//竖放
 	private boolean bottom;//底部朝下
 	private boolean slanting;//斜着放置
-	private List<Integer> compatibility;//不能放在一起列表
 	private int number;//物品数量
 	private int weight;
 
 	
-	public Device()
+	public Weapon()
 	{		
 	}
 	
-	public Device(int id, String name, long length, long width, long high, int weight, int number)
+	public Weapon(int id, String name, long length, long width, long high, int weight, int number)
 	{
 		this.id = id;
 		this.name = name;
@@ -62,7 +58,7 @@ public class Device
 	/**
 	 * @return the model
 	 */
-	public String getModel()
+	public Model getModel()
 	{
 		return model;
 	}
@@ -70,7 +66,7 @@ public class Device
 	/**
 	 * @param model the model to set
 	 */
-	public void setModel(String model)
+	public void setModel(Model model)
 	{
 		this.model = model;
 	}
@@ -172,22 +168,6 @@ public class Device
 	}
 
 	/**
-	 * @return the compatibility
-	 */
-	public List<Integer> getCompatibility()
-	{
-		return compatibility;
-	}
-
-	/**
-	 * @param compatibility the compatibility to set
-	 */
-	public void setCompatibility(List<Integer> compatibility)
-	{
-		this.compatibility = compatibility;
-	}
-
-	/**
 	 * @return the number
 	 */
 	public int getNumber()
@@ -252,9 +232,9 @@ public class Device
 	}
 	
 	@Override
-	public Device clone()
+	public Weapon clone()
 	{
-		Device dev = new Device(id, name, length, width, high, weight, number);
+		Weapon dev = new Weapon(id, name, length, width, high, weight, number);
 		return dev;
 	}
 	

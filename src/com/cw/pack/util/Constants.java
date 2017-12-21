@@ -23,6 +23,7 @@ public class Constants
 	private List<Car> allCars;
 	private List<Weapon> allWeapons;
 	private List<Model> allModels;
+	private Map<String, Car> allMapCars = new HashMap<String, Car>();
 	private Map<String, Model> allMapModels = new HashMap<String, Model>();
 	private Map<String, Weapon> allNameMapping = new HashMap<String, Weapon>();
 	private Map<Model, List<Weapon>> weapMapping = new HashMap<Model, List<Weapon>>();
@@ -53,6 +54,23 @@ public class Constants
 	public void setAllCars(List<Car> allCars)
 	{
 		this.allCars = allCars;
+	}
+
+	/**
+	 * @return the allMapCars
+	 */
+	public Map<String, Car> getAllMapCars()
+	{
+		return allMapCars;
+	}
+
+	/**
+	 * @param allMapCars the allMapCars to set
+	 */
+	public void setAllMapCars(
+			Map<String, Car> allMapCars)
+	{
+		this.allMapCars = allMapCars;
 	}
 
 	/**

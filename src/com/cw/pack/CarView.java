@@ -212,7 +212,7 @@ public class CarView extends javax.swing.JPanel
 	private void initCv(Car car)
 	{
 		((DefaultTableCellRenderer)devInfo.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
-		carDetails.setText(car.toString());
+		carDetails.setText(car.getDetailsInfo());
 		for(Weapon dev:car.getPutDevices())
 		{
 			((DefaultTableModel)devInfo.getModel()).addRow(new Object[]{dev.getId(), dev.getName(), dev.getNumber()});			

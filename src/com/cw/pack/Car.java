@@ -16,11 +16,12 @@ import java.util.List;
 public class Car
 {
 	private int id;
-	private String model;
+//	private String model;
 	private String name;
 	private long length;
 	private long width;
 	private long high;
+	private int number;
 	private int currWeight;
 	private int loadWeight;
 	
@@ -31,13 +32,15 @@ public class Car
 	{
 	}
 	
-	public Car(long length, long width, long high, int weight)
+	public Car(String name, long length, long width, long high, int weight, int number)
 	{
+		this.name = name;
 		this.length = length;
 		this.leftLength = length;
 		this.width = width;
 		this.high = high;
 		this.loadWeight = weight;
+		this.number = number;
 	}
 
 	/**
@@ -88,21 +91,21 @@ public class Car
 		this.id = id;
 	}
 
-	/**
-	 * @return the model
-	 */
-	public String getModel()
-	{
-		return model;
-	}
-
-	/**
-	 * @param model the model to set
-	 */
-	public void setModel(String model)
-	{
-		this.model = model;
-	}
+//	/**
+//	 * @return the model
+//	 */
+//	public String getModel()
+//	{
+//		return model;
+//	}
+//
+//	/**
+//	 * @param model the model to set
+//	 */
+//	public void setModel(String model)
+//	{
+//		this.model = model;
+//	}
 
 	/**
 	 * @return the name
@@ -170,6 +173,22 @@ public class Car
 	}
 
 	/**
+	 * @return the number
+	 */
+	public int getNumber()
+	{
+		return number;
+	}
+
+	/**
+	 * @param number the number to set
+	 */
+	public void setNumber(int number)
+	{
+		this.number = number;
+	}
+
+	/**
 	 * @return the currWeight
 	 */
 	public int getCurrWeight()
@@ -199,6 +218,16 @@ public class Car
 	public void setLoadWeight(int loadWeight)
 	{
 		this.loadWeight = loadWeight;
+	}
+	
+	public long getVolume()
+	{
+		return length*width*high;
+	}
+	
+	public String getDetailsInfo()
+	{
+		return "车辆 id:"+id+", 长:"+length+"mm, 宽:"+width+"mm, 高:"+high+"mm, 载重:"+loadWeight+"KG, 当前载重:"+ currWeight+"KG";
 	}
 	
 	@Override

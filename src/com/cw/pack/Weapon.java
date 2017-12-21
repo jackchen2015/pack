@@ -28,7 +28,7 @@ public class Weapon
 	{		
 	}
 	
-	public Weapon(int id, String name, long length, long width, long high, int weight, int number)
+	public Weapon(int id, String name, long length, long width, long high, int weight, int number, Model model)
 	{
 		this.id = id;
 		this.name = name;
@@ -37,6 +37,7 @@ public class Weapon
 		this.high = high;
 		this.weight = weight;
 		this.number = number;
+		this.model = model;
 	}
 	
 	/**
@@ -234,7 +235,7 @@ public class Weapon
 	@Override
 	public Weapon clone()
 	{
-		Weapon dev = new Weapon(id, name, length, width, high, weight, number);
+		Weapon dev = new Weapon(id, name, length, width, high, weight, number, model);
 		return dev;
 	}
 
@@ -250,13 +251,17 @@ public class Weapon
 	@Override
 	public boolean equals(Object w)
 	{
+		if(w==null)
+		{
+			return false;
+		}
 		return id == ((Weapon)w).id
 				&&name.equals(((Weapon)w).name);
 	}
 	
 	public String getWeaponDesc()
 	{
-		return "物品 id:"+id+ ", 物品名称:"+name+", 长:"+length+"mm, 宽:"+width+"mm, 高:"+high+"mm, 重量:"+weight+"KG, 数量:"+number+"\n";
+		return "物品 id:"+id+ ", 物品名称:"+name+", 长:"+length+"mm, 宽:"+width+"mm, 高:"+high+"mm, 重量:"+weight+"KG, 数量:"+number+", 类别:"+model.getName()+"\n";
 	}
 	
 	@Override

@@ -14,6 +14,8 @@ import com.cw.pack.util.Utils;
 import com.cw.pack.util.db.DBHelper;
 import java.awt.event.ItemEvent;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -192,8 +194,23 @@ public class MainFrame extends javax.swing.JFrame
         });
 
         update.setText("修改");
+        update.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                updateActionPerformed(evt);
+            }
+        });
+        update.setVisible(false);
 
         delete.setText("删除");
+        delete.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                deleteActionPerformed(evt);
+            }
+        });
 
         jLabel10.setText("武器");
 
@@ -206,13 +223,13 @@ public class MainFrame extends javax.swing.JFrame
             },
             new String []
             {
-                "车辆名称", "型号", "载重", "数量"
+                "车辆名称", "载重", "数量"
             }
         )
         {
             Class[] types = new Class []
             {
-                java.lang.Boolean.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
+                java.lang.Boolean.class, java.lang.Integer.class, java.lang.Integer.class
             };
 
             public Class getColumnClass(int columnIndex)
@@ -223,15 +240,23 @@ public class MainFrame extends javax.swing.JFrame
         carTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane2.setViewportView(carTable);
 
-        jLabel1.setText("请选择车型号");
+        jLabel1.setText("请选择车辆");
 
         jLabel5.setText("数量");
 
         carNum.addKeyListener(new NumberKeyAdapter());
 
         add.setText("增加");
+        add.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                addActionPerformed(evt);
+            }
+        });
 
         modifyCar.setText("修改");
+        modifyCar.setVisible(false);
 
         delCar.setText("删除");
 
@@ -437,17 +462,26 @@ public class MainFrame extends javax.swing.JFrame
 
     private void calcActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_calcActionPerformed
     {//GEN-HEADEREND:event_calcActionPerformed
-		Map<Integer,Weapon> allDevs = new HashMap<Integer,Weapon>();
+		Map<Model, Map<Integer,Weapon>> allDevs = new HashMap<Model, Map<Integer,Weapon>>();
 		
 		int id = 0;
 		for(int i=0;i<loadDevice.getRowCount();i++)
 		{
 			if((boolean)loadDevice.getValueAt(i, 0))
 			{
-				Weapon d = new Weapon(id++, loadDevice.getValueAt(i, 1)+"", Long.parseLong(loadDevice.getValueAt(i, 2)+""), 
-						Long.parseLong(loadDevice.getValueAt(i, 3)+""), Long.parseLong(loadDevice.getValueAt(i, 4)+""), (int)loadDevice.getValueAt(i, 6), 
-						(int)loadDevice.getValueAt(i, 5));
-				allDevs.put(id, d);
+				Weapon d = Constants.getInstance().getAllNameMapping().get(loadDevice.getValueAt(i, 1)+"");
+				d.setNumber(Integer.parseInt(loadDevice.getValueAt(i, 5)+""));
+				Map<Integer,Weapon> mapWp = allDevs.get(d.getModel());
+				if(mapWp==null)
+				{
+					mapWp = new HashMap<Integer, Weapon>();
+					allDevs.put(d.getModel(), mapWp);
+				}
+				mapWp.put(d.getId(), d);
+//				Weapon d = new Weapon(id++, loadDevice.getValueAt(i, 1)+"", Long.parseLong(loadDevice.getValueAt(i, 2)+""), 
+//						Long.parseLong(loadDevice.getValueAt(i, 3)+""), Long.parseLong(loadDevice.getValueAt(i, 4)+""), Integer.parseInt(loadDevice.getValueAt(i, 6)+""), 
+//						Integer.parseInt(loadDevice.getValueAt(i, 5)+""));
+//				allDevs.put(id, d);
 			}
 		}
 		if(allDevs.size()==0)
@@ -457,12 +491,34 @@ public class MainFrame extends javax.swing.JFrame
 		}
 		
 		
-		Car car = new Car();
-		car.setId(0);
-		car.setLength(5000);
-		car.setWidth(2300);
-		car.setHigh(2100);
-		car.setLoadWeight(30000);
+//		Car car = new Car();
+//		car.setId(0);
+//		car.setLength(5000);
+//		car.setWidth(2300);
+//		car.setHigh(2100);
+//		car.setLoadWeight(30000);
+		
+		List<Car> allCars = new ArrayList<Car>();
+		for(int i=0;i<carTable.getRowCount();i++)
+		{
+			Car car = Constants.getInstance().getAllMapCars().get(carTable.getValueAt(i, 0)+"");
+			car.setNumber(Integer.parseInt(carTable.getValueAt(i, 2)+""));
+			allCars.add(car);
+		}
+		Collections.sort(allCars, new Comparator<Car>(){
+			@Override
+			public int compare(Car o1, Car o2)
+			{
+               if(o1.getVolume()<o2.getVolume()){  
+                    return 1;  
+                }  
+                if(o1.getVolume() == o2.getVolume()){  
+                    return 0;  
+                }  
+                return -1; 
+			}
+		});
+		
 		for(Map.Entry<Integer, Weapon> devEntry:allDevs.entrySet())
 		{
 			Weapon dev = devEntry.getValue();
@@ -517,8 +573,11 @@ public class MainFrame extends javax.swing.JFrame
 		{
 			ArrayList<Object> rowObj = result.get(i);
 			String weaponName = (String)rowObj.get(1);
-			
-			
+			Weapon wp = Constants.getInstance().getAllNameMapping().get(weaponName);
+			if(wp!=null)
+			{
+				
+			}
 			((DefaultTableModel)loadDevice.getModel()).addRow(new Object[]{false, rowObj.get(1), rowObj.get(2), rowObj.get(3), rowObj.get(4), rowObj.get(5), rowObj.get(6), Constants.getInstance().getAllMapModels().get(rowObj.get(7))});
 //			loadDevice.getModel().setValueAt(false, i-1, 0);
 //			for(int j = 1;j<rowObj.size();j++)
@@ -540,8 +599,9 @@ public class MainFrame extends javax.swing.JFrame
 
     private void insertActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_insertActionPerformed
     {//GEN-HEADEREND:event_insertActionPerformed
+		Weapon sw = (Weapon)weaponComb.getSelectedItem();
+		((DefaultTableModel)loadDevice.getModel()).addRow(new Object[]{false, sw.getName(), sw.getLength(), sw.getWidth(), sw.getHigh(), Integer.parseInt(dev_num.getText()), sw.getWidth(), sw.getModel()});
 		
-		Weapon selectWeapon = (Weapon)weaponComb.getSelectedItem();
 //		if(selectWeapon!=null)
 //		{			
 //			selectWeapon.setNumber(Integer.parseInt(dev_num.getText()));
@@ -586,6 +646,34 @@ public class MainFrame extends javax.swing.JFrame
             }  
         }  
     }//GEN-LAST:event_weaponTypeCmbItemStateChanged
+
+    private void updateActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_updateActionPerformed
+    {//GEN-HEADEREND:event_updateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_updateActionPerformed
+
+    private void deleteActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_deleteActionPerformed
+    {//GEN-HEADEREND:event_deleteActionPerformed
+		List<Integer> needDelete = new ArrayList<Integer>();
+		for(int i=0;i<loadDevice.getRowCount();i++)
+		{
+			if((boolean)loadDevice.getValueAt(i, 0))
+			{				
+				needDelete.add(i);
+			}
+		}
+		for(int i=needDelete.size()-1;i>=0;i--)
+		{
+			((DefaultTableModel)loadDevice.getModel()).removeRow(i);
+		}
+    }//GEN-LAST:event_deleteActionPerformed
+
+    private void addActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_addActionPerformed
+    {//GEN-HEADEREND:event_addActionPerformed
+        Car car = (Car)carModel.getSelectedItem();
+		car.setNumber(Integer.parseInt(carNum.getText()));
+		((DefaultTableModel)carTable.getModel()).addRow(new Object[]{car.getName(), car.getLoadWeight(), car.getNumber()});
+    }//GEN-LAST:event_addActionPerformed
 
 	private String getStringCellValue(HSSFCell cell)
 	{
@@ -742,6 +830,7 @@ public class MainFrame extends javax.swing.JFrame
 		}
 		for(Car car:allCars)
 		{
+			Constants.getInstance().getAllMapCars().put(car.getName(), car);
 			carModel.addItem(car);
 		}
 		

@@ -100,7 +100,7 @@ public class Utils
 		}
 		if(sortResult.size()>0)
 		{
-			Car c = new Car(car.getLength(), car.getWidth(), car.getHigh(), car.getLoadWeight());
+			Car c = new Car("",car.getLength(), car.getWidth(), car.getHigh(), car.getLoadWeight(),0);
 			c.setId(cars.size());
 			load(cars, sortResult, isMore?c:car);
 		}
@@ -210,12 +210,12 @@ public class Utils
 	public static void main(String[] args)
 	{
 		Map<Integer, Weapon> map = new HashMap<Integer, Weapon>();
-		map.put(1, new Weapon(1, "a", 120,213,122,50,100));
-		map.put(2, new Weapon(2, "b", 1220,213,122,50,100));
-		map.put(3, new Weapon(3, "c", 20,23,122,54,300));
-		map.put(4, new Weapon(4, "d", 3320,233,122,40,300));
-		map.put(5, new Weapon(5, "e", 10,2145,122,56,160));
-		map.put(6, new Weapon(6, "f", 13340,2313,122,30,180));
+		map.put(1, new Weapon(1, "a", 120,213,122,50,100,null));
+		map.put(2, new Weapon(2, "b", 1220,213,122,50,100,null));
+		map.put(3, new Weapon(3, "c", 20,23,122,54,300,null));
+		map.put(4, new Weapon(4, "d", 3320,233,122,40,300,null));
+		map.put(5, new Weapon(5, "e", 10,2145,122,56,160,null));
+		map.put(6, new Weapon(6, "f", 13340,2313,122,30,180,null));
 		List<Map.Entry<Integer, Weapon>> list = sort(map, true);
 		for(Map.Entry<Integer, Weapon> e:list)
 		{

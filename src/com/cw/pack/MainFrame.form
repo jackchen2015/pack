@@ -236,7 +236,7 @@
                 <Column editable="false" title="&#x9ad8;(&#x6beb;&#x7c73;)" type="java.lang.Long"/>
                 <Column editable="false" title="&#x6570;&#x91cf;(&#x4e2a;)" type="java.lang.Integer"/>
                 <Column editable="false" title="&#x91cd;&#x91cf;(KG)" type="java.lang.Integer"/>
-                <Column editable="false" title="&#x7c7b;&#x522b;" type="java.lang.String"/>
+                <Column editable="false" title="&#x7c7b;&#x522b;" type="java.lang.Object"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -287,7 +287,7 @@
               <JTableSelectionModel selectionMode="0"/>
             </Property>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
-              <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+              <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
             </Property>
           </Properties>
         </Component>
@@ -314,6 +314,9 @@
           <StringArray count="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="weaponTypeCmbItemStateChanged"/>
+      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Model&gt;"/>
       </AuxValues>
@@ -343,6 +346,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="dev_num">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="dev_num.addKeyListener(new NumberKeyAdapter());"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="insert">
       <Properties>
@@ -524,6 +530,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="carNum">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="carNum.addKeyListener(new NumberKeyAdapter());"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="add">
           <Properties>

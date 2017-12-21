@@ -546,6 +546,7 @@ public class DBHelper {
 			while(db.next()){
 				Car car = new Car();
 				car.setId(db.getIntVal("id"));
+				car.setName(db.getValue("name"));
 				car.setLength(db.getIntVal("length"));
 				car.setWidth(db.getIntVal("width"));
 				car.setHigh(db.getIntVal("high"));
@@ -586,7 +587,7 @@ public class DBHelper {
 	public void updateCar(Integer id, String name, Integer length, Integer width, Integer height, Integer weight){
 		DB2Access db = new DB2Access();
 		if(db.createConn()) {
-			String sql = "update car set name='"+name+"', length='"+ length +"', width='"+width+"', height='"+height+"' where id='"+id+"'";
+			String sql = "update car set name='"+name+"', length='"+ length +"', width='"+width+"', high='"+height+"', weight='"+weight+"' where id='"+id+"'";
 			db.update(sql);
 			db.closeRs();
 			db.closeStm();

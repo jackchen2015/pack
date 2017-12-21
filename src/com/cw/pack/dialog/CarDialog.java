@@ -12,6 +12,7 @@
 package com.cw.pack.dialog;
 
 import com.cw.pack.Car;
+import com.cw.pack.util.NumberKeyAdapter;
 import com.cw.pack.util.Utils;
 import com.cw.pack.util.db.DBHelper;
 import java.util.ArrayList;
@@ -82,11 +83,19 @@ public class CarDialog extends javax.swing.JDialog
 
         jLabel2.setText("载重");
 
+        loadWeight.addKeyListener(new NumberKeyAdapter());
+
         jLabel3.setText("长");
+
+        carLength.addKeyListener(new NumberKeyAdapter());
 
         jLabel4.setText("宽");
 
+        carWidth.addKeyListener(new NumberKeyAdapter());
+
         jLabel5.setText("高");
+
+        carHeight.addKeyListener(new NumberKeyAdapter());
 
         carTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]

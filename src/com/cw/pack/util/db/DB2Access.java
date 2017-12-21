@@ -22,11 +22,9 @@ public class DB2Access {
 	public boolean createConn() {
 		boolean b = false;
 		try {
-			System.out.println("1");
 			Class.forName(drv).newInstance();
-			System.out.println("2");
 			conn = DriverManager.getConnection(url);
-			System.out.println("3");
+			System.out.println("connect db");
 			b = true;
 		} catch (SQLException e) {
 			e.printStackTrace();

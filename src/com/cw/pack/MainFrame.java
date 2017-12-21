@@ -8,8 +8,11 @@ package com.cw.pack;
 import com.cw.pack.dialog.CarDialog;
 import com.cw.pack.dialog.WeaponDialog;
 import com.cw.pack.dialog.WeaponTypeDialog;
+import com.cw.pack.util.Constants;
+import com.cw.pack.util.NumberKeyAdapter;
 import com.cw.pack.util.Utils;
 import com.cw.pack.util.db.DBHelper;
+import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -125,7 +128,7 @@ public class MainFrame extends javax.swing.JFrame
         {
             Class[] types = new Class []
             {
-                java.lang.Boolean.class, java.lang.String.class, java.lang.Long.class, java.lang.Long.class, java.lang.Long.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class
+                java.lang.Boolean.class, java.lang.String.class, java.lang.Long.class, java.lang.Long.class, java.lang.Long.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean []
             {
@@ -143,6 +146,7 @@ public class MainFrame extends javax.swing.JFrame
             }
         });
         loadDevice.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        loadDevice.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(loadDevice);
 
         jLabel2.setFont(new java.awt.Font("宋体", 0, 24)); // NOI18N
@@ -151,6 +155,14 @@ public class MainFrame extends javax.swing.JFrame
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel3.setText("武器类别");
+
+        weaponTypeCmb.addItemListener(new java.awt.event.ItemListener()
+        {
+            public void itemStateChanged(java.awt.event.ItemEvent evt)
+            {
+                weaponTypeCmbItemStateChanged(evt);
+            }
+        });
 
         jLabel4.setText("武器列表");
 
@@ -167,6 +179,8 @@ public class MainFrame extends javax.swing.JFrame
 
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel7.setText("数量");
+
+        dev_num.addKeyListener(new NumberKeyAdapter());
 
         insert.setText("增加");
         insert.addActionListener(new java.awt.event.ActionListener()
@@ -212,6 +226,8 @@ public class MainFrame extends javax.swing.JFrame
         jLabel1.setText("请选择车型号");
 
         jLabel5.setText("数量");
+
+        carNum.addKeyListener(new NumberKeyAdapter());
 
         add.setText("增加");
 
@@ -500,13 +516,15 @@ public class MainFrame extends javax.swing.JFrame
 		for(int i=1;i<result.size();i++)
 		{
 			ArrayList<Object> rowObj = result.get(i);
+			String weaponName = (String)rowObj.get(1);
 			
-			((DefaultTableModel)loadDevice.getModel()).addRow(new Object[]{});
-			loadDevice.getModel().setValueAt(false, i-1, 0);
-			for(int j = 1;j<rowObj.size();j++)
-			{				
-				loadDevice.getModel().setValueAt(rowObj.get(j), i-1, j);
-			}
+			
+			((DefaultTableModel)loadDevice.getModel()).addRow(new Object[]{false, rowObj.get(1), rowObj.get(2), rowObj.get(3), rowObj.get(4), rowObj.get(5), rowObj.get(6), Constants.getInstance().getAllMapModels().get(rowObj.get(7))});
+//			loadDevice.getModel().setValueAt(false, i-1, 0);
+//			for(int j = 1;j<rowObj.size();j++)
+//			{				
+//				loadDevice.getModel().setValueAt(rowObj.get(j), i-1, j);
+//			}
 		}		
     }//GEN-LAST:event_importFileActionPerformed
 
@@ -522,7 +540,13 @@ public class MainFrame extends javax.swing.JFrame
 
     private void insertActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_insertActionPerformed
     {//GEN-HEADEREND:event_insertActionPerformed
-        // TODO add your handling code here:
+		
+		Weapon selectWeapon = (Weapon)weaponComb.getSelectedItem();
+//		if(selectWeapon!=null)
+//		{			
+//			selectWeapon.setNumber(Integer.parseInt(dev_num.getText()));
+//		}
+		
     }//GEN-LAST:event_insertActionPerformed
 
     private void weaponTypeActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_weaponTypeActionPerformed
@@ -542,6 +566,26 @@ public class MainFrame extends javax.swing.JFrame
         CarDialog car = new CarDialog(this, true);
 		car.setVisible(true);
     }//GEN-LAST:event_carTypeActionPerformed
+
+    private void weaponTypeCmbItemStateChanged(java.awt.event.ItemEvent evt)//GEN-FIRST:event_weaponTypeCmbItemStateChanged
+    {//GEN-HEADEREND:event_weaponTypeCmbItemStateChanged
+        if(evt.getStateChange() == ItemEvent.SELECTED){  
+            Model itemObj = (Model) evt.getItem();
+			weaponComb.removeAllItems();
+            try{  
+                List<Weapon> weaps = Constants.getInstance().getWeapMapping().get(itemObj);
+				if(weaps!=null)
+				{
+					for(Weapon weap:weaps)
+					{
+						weaponComb.addItem(weap);
+					}
+				}
+            }catch(Exception ex){  
+                  
+            }  
+        }  
+    }//GEN-LAST:event_weaponTypeCmbItemStateChanged
 
 	private String getStringCellValue(HSSFCell cell)
 	{
@@ -672,11 +716,29 @@ public class MainFrame extends javax.swing.JFrame
 	{
 		DBHelper helper =new DBHelper();
 		List<Model> allModels = helper.getAllModel();
+		Constants.getInstance().setAllModels(allModels);
 		List<Weapon> allWeapons = helper.getAllWeapon();
+		Constants.getInstance().setAllWeapons(allWeapons);
+		Map<Model, List<Weapon>> mapping = Constants.getInstance().getWeapMapping();
+		Map<String, Weapon> nameWMaping = Constants.getInstance().getAllNameMapping();
+		for(Weapon weapon:allWeapons)
+		{
+			nameWMaping.put(weapon.getName(), weapon);
+			List<Weapon> weaponLst = mapping.get(weapon.getModel());
+			if(weaponLst==null)
+			{
+				weaponLst = new ArrayList<Weapon>();
+				mapping.put(weapon.getModel(), weaponLst);
+			}
+			weaponLst.add(weapon);
+		}
+//		Constants.getInstance().setWeapMapping(mapping);
 		List<Car> allCars = helper.getAllCar();
+		Constants.getInstance().setAllCars(allCars);
 		for(Model model:allModels)
 		{
 			weaponTypeCmb.addItem(model);
+			Constants.getInstance().getAllMapModels().put(model.getName(), model);
 		}
 		for(Car car:allCars)
 		{

@@ -15,6 +15,7 @@ import com.cw.pack.util.Utils;
 import com.cw.pack.util.db.DBHelper;
 import com.cw.pack.Model;
 import com.cw.pack.Weapon;
+import com.cw.pack.util.NumberKeyAdapter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFileChooser;
@@ -90,11 +91,19 @@ public class WeaponDialog extends javax.swing.JDialog
 
         jLabel2.setText("重量");
 
+        weaponWeight.addKeyListener(new NumberKeyAdapter());
+
         jLabel3.setText("长");
+
+        weaponLength.addKeyListener(new NumberKeyAdapter());
 
         jLabel4.setText("宽");
 
+        weaponWidth.addKeyListener(new NumberKeyAdapter());
+
         jLabel5.setText("高");
+
+        weaponHeight.addKeyListener(new NumberKeyAdapter());
 
         weaponTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]

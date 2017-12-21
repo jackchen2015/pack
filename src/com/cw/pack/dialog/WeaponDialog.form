@@ -153,6 +153,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="weaponWeight">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="weaponWeight.addKeyListener(new NumberKeyAdapter());"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
@@ -160,6 +163,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="weaponLength">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="weaponLength.addKeyListener(new NumberKeyAdapter());"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
       <Properties>
@@ -167,6 +173,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="weaponWidth">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="weaponWidth.addKeyListener(new NumberKeyAdapter());"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
@@ -174,6 +183,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="weaponHeight">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="weaponHeight.addKeyListener(new NumberKeyAdapter());"/>
+      </AuxValues>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
       <AuxValues>

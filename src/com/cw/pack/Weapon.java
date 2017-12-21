@@ -237,11 +237,32 @@ public class Weapon
 		Weapon dev = new Weapon(id, name, length, width, high, weight, number);
 		return dev;
 	}
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + id;
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        return result;
+    }
+	
+	@Override
+	public boolean equals(Object w)
+	{
+		return id == ((Weapon)w).id
+				&&name.equals(((Weapon)w).name);
+	}
+	
+	public String getWeaponDesc()
+	{
+		return "物品 id:"+id+ ", 物品名称:"+name+", 长:"+length+"mm, 宽:"+width+"mm, 高:"+high+"mm, 重量:"+weight+"KG, 数量:"+number+"\n";
+	}
 	
 	@Override
 	public String toString()
 	{
-		return "物品 id:"+id+ ", 物品名称:"+name+", 长:"+length+"mm, 宽:"+width+"mm, 高:"+high+"mm, 重量:"+weight+"KG, 数量:"+number+"\n";
+		return name;
 	}
 
 }

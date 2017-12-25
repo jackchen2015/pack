@@ -183,6 +183,7 @@ public class MainFrame extends javax.swing.JFrame
         jLabel7.setText("数量");
 
         dev_num.addKeyListener(new NumberKeyAdapter());
+        dev_num.setText("0");
 
         insert.setText("增加");
         insert.addActionListener(new java.awt.event.ActionListener()
@@ -229,7 +230,7 @@ public class MainFrame extends javax.swing.JFrame
         {
             Class[] types = new Class []
             {
-                java.lang.Boolean.class, java.lang.Integer.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
             };
 
             public Class getColumnClass(int columnIndex)
@@ -245,6 +246,7 @@ public class MainFrame extends javax.swing.JFrame
         jLabel5.setText("数量");
 
         carNum.addKeyListener(new NumberKeyAdapter());
+        carNum.setText("0");
 
         add.setText("增加");
         add.addActionListener(new java.awt.event.ActionListener()
@@ -499,6 +501,11 @@ public class MainFrame extends javax.swing.JFrame
 //		car.setLoadWeight(30000);
 		
 		List<Car> allCars = new ArrayList<Car>();
+		if(carTable.getRowCount()==0)
+		{
+			JOptionPane.showMessageDialog(this, "车辆信息为指定，请添加车辆信息！");
+			return;
+		}
 		for(int i=0;i<carTable.getRowCount();i++)
 		{
 			Car car = Constants.getInstance().getAllMapCars().get(carTable.getValueAt(i, 0)+"");
@@ -518,35 +525,36 @@ public class MainFrame extends javax.swing.JFrame
                 return -1; 
 			}
 		});
+		System.out.println(allCars.size());
 		
-		for(Map.Entry<Integer, Weapon> devEntry:allDevs.entrySet())
-		{
-			Weapon dev = devEntry.getValue();
-			if(dev.getLength()>car.getWidth())//斜放
-			{
-				long l = (long)java.lang.Math.sqrt(dev.getLength()*dev.getLength()-car.getWidth()*car.getWidth())+dev.getWidth();
-				dev.setLength(car.getWidth());
-				dev.setWidth(l);
-				dev.setSlanting(true);
-			}
-		}
-		
-		List<Map.Entry<Integer, Weapon>> sortResult = Utils.sort(allDevs, true);//逆序排列
-		List<Car> cars = new ArrayList<Car>();
-		Utils.load(cars, sortResult, car);
-		for(Car c:cars)
-		{
-			System.out.println("car id:"+c.getId());
-			List<Weapon> ds = c.getPutDevices();
-			for(Weapon d:ds)
-			{
-				System.out.println("---->dev id:"+d.getId()+", number is:"+d.getNumber());
-			}
-		}
-		
-		
-		ResultDialog rd = new ResultDialog(this, cars, true);
-		rd.setVisible(true);
+//		for(Map.Entry<Integer, Weapon> devEntry:allDevs.entrySet())
+//		{
+//			Weapon dev = devEntry.getValue();
+//			if(dev.getLength()>car.getWidth())//斜放
+//			{
+//				long l = (long)java.lang.Math.sqrt(dev.getLength()*dev.getLength()-car.getWidth()*car.getWidth())+dev.getWidth();
+//				dev.setLength(car.getWidth());
+//				dev.setWidth(l);
+//				dev.setSlanting(true);
+//			}
+//		}
+//		
+//		List<Map.Entry<Integer, Weapon>> sortResult = Utils.sort(allDevs, true);//逆序排列
+//		List<Car> cars = new ArrayList<Car>();
+//		Utils.load(cars, sortResult, car);
+//		for(Car c:cars)
+//		{
+//			System.out.println("car id:"+c.getId());
+//			List<Weapon> ds = c.getPutDevices();
+//			for(Weapon d:ds)
+//			{
+//				System.out.println("---->dev id:"+d.getId()+", number is:"+d.getNumber());
+//			}
+//		}
+//		
+//		
+//		ResultDialog rd = new ResultDialog(this, cars, true);
+//		rd.setVisible(true);
 		
     }//GEN-LAST:event_calcActionPerformed
 
@@ -576,14 +584,14 @@ public class MainFrame extends javax.swing.JFrame
 			Weapon wp = Constants.getInstance().getAllNameMapping().get(weaponName);
 			if(wp!=null)
 			{
-				
+				wp.setNumber(Integer.parseInt(rowObj.get(5)+""));
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(this, "武器'"+weaponName+"'在数据库中没找到！请在武器维护中添加该武器，然后再次导入该装车武器信息！");
+				continue;
 			}
 			((DefaultTableModel)loadDevice.getModel()).addRow(new Object[]{false, rowObj.get(1), rowObj.get(2), rowObj.get(3), rowObj.get(4), rowObj.get(5), rowObj.get(6), Constants.getInstance().getAllMapModels().get(rowObj.get(7))});
-//			loadDevice.getModel().setValueAt(false, i-1, 0);
-//			for(int j = 1;j<rowObj.size();j++)
-//			{				
-//				loadDevice.getModel().setValueAt(rowObj.get(j), i-1, j);
-//			}
 		}		
     }//GEN-LAST:event_importFileActionPerformed
 

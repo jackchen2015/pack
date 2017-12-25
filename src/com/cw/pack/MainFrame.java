@@ -37,7 +37,7 @@ import org.apache.poi.ss.usermodel.Cell;
  */
 public class MainFrame extends javax.swing.JFrame
 {
-
+	
 	/**
 	 * Creates new form MainFrame
 	 */
@@ -64,7 +64,7 @@ public class MainFrame extends javax.swing.JFrame
         loadDevice = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        weaponTypeCmb = new javax.swing.JComboBox<Model>();
+        weaponTypeCmb = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         selectAll = new javax.swing.JCheckBox();
@@ -78,12 +78,12 @@ public class MainFrame extends javax.swing.JFrame
         jSeparator4 = new javax.swing.JSeparator();
         jSeparator5 = new javax.swing.JSeparator();
         jLabel10 = new javax.swing.JLabel();
-        weaponComb = new javax.swing.JComboBox<Weapon>();
+        weaponComb = new javax.swing.JComboBox<>();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         carTable = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        carModel = new javax.swing.JComboBox<Car>();
+        carModel = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         carNum = new javax.swing.JTextField();
         add = new javax.swing.JButton();
@@ -259,6 +259,13 @@ public class MainFrame extends javax.swing.JFrame
 
         modifyCar.setText("修改");
         modifyCar.setVisible(false);
+        modifyCar.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                modifyCarActionPerformed(evt);
+            }
+        });
 
         delCar.setText("删除");
 
@@ -509,7 +516,7 @@ public class MainFrame extends javax.swing.JFrame
 		for(int i=0;i<carTable.getRowCount();i++)
 		{
 			Car car = Constants.getInstance().getAllMapCars().get(carTable.getValueAt(i, 0)+"");
-			car.setNumber(Integer.parseInt(carTable.getValueAt(i, 2)+""));
+			car.setNum(Integer.parseInt(carTable.getValueAt(i, 2)+""));//车数量
 			allCars.add(car);
 		}
 		Collections.sort(allCars, new Comparator<Car>(){
@@ -526,6 +533,39 @@ public class MainFrame extends javax.swing.JFrame
 			}
 		});
 		System.out.println(allCars.size());
+		
+		List<Car> cars = new ArrayList<Car>();
+		Car car = allCars.get(0);				
+		for(Map.Entry<Model, Map<Integer,Weapon>> entry:allDevs.entrySet())
+		{
+			//不同类型单独处理装车
+			Model model = entry.getKey();
+			Map<Integer, Weapon> devVal = entry.getValue();
+
+			for(Map.Entry<Integer, Weapon> devEntry:devVal.entrySet())
+			{
+				Weapon dev = devEntry.getValue();
+				if(dev.getLength()>car.getWidth())//斜放
+				{
+					long l = (long)java.lang.Math.sqrt(dev.getLength()*dev.getLength()-car.getWidth()*car.getWidth())+dev.getWidth();
+					dev.setLength(car.getWidth());
+					dev.setWidth(l);
+					dev.setSlanting(true);
+				}
+			}
+
+			List<Map.Entry<Integer, Weapon>> sortResult = Utils.sort(devVal, true);//逆序排列
+			Utils.load(cars, sortResult, 0, allCars);
+		}
+			for(Car c:cars)
+			{
+				System.out.println("car id:"+c.getId());
+				List<Weapon> ds = c.getPutDevices();
+				for(Weapon d:ds)
+				{
+					System.out.println("---->dev id:"+d.getId()+", number is:"+d.getNumber());
+				}
+			}
 		
 //		for(Map.Entry<Integer, Weapon> devEntry:allDevs.entrySet())
 //		{
@@ -553,8 +593,8 @@ public class MainFrame extends javax.swing.JFrame
 //		}
 //		
 //		
-//		ResultDialog rd = new ResultDialog(this, cars, true);
-//		rd.setVisible(true);
+		ResultDialog rd = new ResultDialog(this, cars, true);
+		rd.setVisible(true);
 		
     }//GEN-LAST:event_calcActionPerformed
 
@@ -679,9 +719,14 @@ public class MainFrame extends javax.swing.JFrame
     private void addActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_addActionPerformed
     {//GEN-HEADEREND:event_addActionPerformed
         Car car = (Car)carModel.getSelectedItem();
-		car.setNumber(Integer.parseInt(carNum.getText()));
-		((DefaultTableModel)carTable.getModel()).addRow(new Object[]{car.getName(), car.getLoadWeight(), car.getNumber()});
+		car.setNum(Integer.parseInt(carNum.getText()));
+		((DefaultTableModel)carTable.getModel()).addRow(new Object[]{car.getName(), car.getLoadWeight(), car.getNum()});
     }//GEN-LAST:event_addActionPerformed
+
+    private void modifyCarActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_modifyCarActionPerformed
+    {//GEN-HEADEREND:event_modifyCarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_modifyCarActionPerformed
 
 	private String getStringCellValue(HSSFCell cell)
 	{

@@ -555,6 +555,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="&#x4fee;&#x6539;"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="modifyCarActionPerformed"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="modifyCar.setVisible(false);"/>
           </AuxValues>

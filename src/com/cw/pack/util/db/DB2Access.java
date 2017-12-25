@@ -11,7 +11,7 @@ public class DB2Access {
 
 	private String drv = "org.sqlite.JDBC";
 
-	private String url = "jdbc:sqlite:F:\\person\\pack\\pack.db";
+	private String url = "jdbc:sqlite:pack.db";
 
 	private Connection conn = null;
 

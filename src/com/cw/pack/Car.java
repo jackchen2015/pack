@@ -21,7 +21,9 @@ public class Car
 	private long length;
 	private long width;
 	private long high;
-	private int number;
+	private int number;//一个指针
+	private int currNum;//当前车的数量
+	private int num;//车的数量
 	private int currWeight;
 	private int loadWeight;
 	
@@ -186,6 +188,38 @@ public class Car
 	public void setNumber(int number)
 	{
 		this.number = number;
+	}
+
+	/**
+	 * @return the num
+	 */
+	public int getNum()
+	{
+		return num;
+	}
+
+	/**
+	 * @param num the num to set
+	 */
+	public void setNum(int num)
+	{
+		this.num = num;
+	}
+
+	/**
+	 * @return the currNum
+	 */
+	public int getCurrNum()
+	{
+		return currNum;
+	}
+
+	/**
+	 * @param currNum the currNum to set
+	 */
+	public void setCurrNum(int currNum)
+	{
+		this.currNum = currNum;
 	}
 
 	/**

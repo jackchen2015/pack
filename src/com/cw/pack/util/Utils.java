@@ -69,10 +69,10 @@ public class Utils
 		return maxCanLoad1>maxCanLoad2?maxCanLoad2:maxCanLoad1;
 	}
 	
-	public static void load(List<Car> cars, List<Map.Entry<Integer, Weapon>> sortResult, int idx, List<Car> allCarModels)
+	public static void load(List<Car> cars, List<Map.Entry<Integer, Weapon>> sortResult, Integer idx, List<Car> allCarModels)
 	{
 		boolean isMore = false;
-		Car car = allCarsModel.get(idx);
+		Car car = allCarModels.get(idx);
 		for(Map.Entry<Integer, Weapon> entry:sortResult)
 		{
 			Weapon dev = entry.getValue();
@@ -103,30 +103,42 @@ public class Utils
 		}
 		if(sortResult.size()>0)
 		{
-			if(car.getCurrNum()==car.getNum())
+			if(isMore)
 			{
-				idx++;
+				if(car.getCurrNum()==car.getNum())
+				{
+					idx++;
+				}
+				else
+				{
+					car.setCurrWeight(0);
+					car.setLeftLength(car.getLength());
+					car.getPutDevices().clear();
+					car.setId(cars.size());					
+				}				
 			}
+
 //			else
 //			{
 //				
 //			}
 //			Car c = new Car("",car.getLength(), car.getWidth(), car.getHigh(), car.getLoadWeight(),0);
-			if(isMore)
-			{
-				car = new Car(cars.size(), car.getLength(), car.getWidth(), car.getHigh(), car.getLoadWeight(),0);
-				car.setCurrWeight(0);
-				car.setLeftLength(car.getLength());
-				car.setId(cars.size());
-				
-			}
+//			if(isMore)
+//			{
+//				car = new Car(cars.size(), car.getLength(), car.getWidth(), car.getHigh(), car.getLoadWeight(),0);
+//				car.setCurrWeight(0);
+//				car.setLeftLength(car.getLength());
+//				car.setId(cars.size());
+//				
+//			}
 //			c.setId(cars.size());
-			load(cars, sortResult, idx, allCars);
+			load(cars, sortResult, idx, allCarModels);
 		}
 		else
 		{
 			car.setCurrNum(car.getCurrNum()+1);
-			cars.add(car);
+			Car objCar = car.clone();
+			cars.add(objCar);
 		}
 	}
 

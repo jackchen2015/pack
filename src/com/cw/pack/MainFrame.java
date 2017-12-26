@@ -535,7 +535,8 @@ public class MainFrame extends javax.swing.JFrame
 		System.out.println(allCars.size());
 		
 		List<Car> cars = new ArrayList<Car>();
-		Car car = allCars.get(0);				
+		Car car = allCars.get(0);
+		int index = 0;
 		for(Map.Entry<Model, Map<Integer,Weapon>> entry:allDevs.entrySet())
 		{
 			//不同类型单独处理装车
@@ -555,7 +556,25 @@ public class MainFrame extends javax.swing.JFrame
 			}
 
 			List<Map.Entry<Integer, Weapon>> sortResult = Utils.sort(devVal, true);//逆序排列
-			Utils.load(cars, sortResult, 0, allCars);
+			Utils.load(cars, sortResult, index, allCars);
+			for(Car cc:allCars)
+			{
+				Car lastCar = cars.get(cars.size()-1);
+				if(cc.getName()==lastCar.getName())
+				{
+					index = allCars.indexOf(cc);
+					if(cc.getCurrNum()==cc.getNum())
+					{
+						index++;
+					}
+					break;
+				}
+			}
+
+//			for(Car cc:allCars)
+//			{
+//				cc.set
+//			}
 		}
 			for(Car c:cars)
 			{

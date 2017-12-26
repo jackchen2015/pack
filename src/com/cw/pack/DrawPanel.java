@@ -86,7 +86,8 @@ public class DrawPanel extends javax.swing.JPanel
 		int count = 0;
 		for(Weapon dev:devs)
 		{
-			g2d.setColor(colors[count++]);
+			count++;
+			g2d.setColor(colors[count%6]);
 			int cols = carWidth/(int)dev.getLength();//每条个数
 			int rows = carHigh/(int)dev.getHigh();//能放多少排
 			int levels = carLeftLength/(int)dev.getWidth();//能放多少层

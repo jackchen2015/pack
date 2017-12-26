@@ -69,10 +69,10 @@ public class Utils
 		return maxCanLoad1>maxCanLoad2?maxCanLoad2:maxCanLoad1;
 	}
 	
-	public static void load(List<Car> cars, List<Map.Entry<Integer, Weapon>> sortResult, int idx, List<Car> allCars)
+	public static void load(List<Car> cars, List<Map.Entry<Integer, Weapon>> sortResult, int idx, List<Car> allCarModels)
 	{
 		boolean isMore = false;
-		Car car = allCars.get(idx);
+		Car car = allCarsModel.get(idx);
 		for(Map.Entry<Integer, Weapon> entry:sortResult)
 		{
 			Weapon dev = entry.getValue();
@@ -86,7 +86,8 @@ public class Utils
 				car.setCurrWeight(car.getCurrWeight()+dev.getWeight()*maxNum);//修改车当前装载重量
 				isMore = true;
 				car.setCurrNum(car.getCurrNum()+1);
-				cars.add(car);
+				Car objCar = car.clone();
+				cars.add(objCar);
 				break;
 			}
 			else
@@ -113,9 +114,11 @@ public class Utils
 //			Car c = new Car("",car.getLength(), car.getWidth(), car.getHigh(), car.getLoadWeight(),0);
 			if(isMore)
 			{
+				car = new Car(cars.size(), car.getLength(), car.getWidth(), car.getHigh(), car.getLoadWeight(),0);
 				car.setCurrWeight(0);
 				car.setLeftLength(car.getLength());
 				car.setId(cars.size());
+				
 			}
 //			c.setId(cars.size());
 			load(cars, sortResult, idx, allCars);

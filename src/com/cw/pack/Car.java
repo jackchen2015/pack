@@ -264,6 +264,15 @@ public class Car
 		return "车辆 id:"+id+", 长:"+length+"mm, 宽:"+width+"mm, 高:"+high+"mm, 载重:"+loadWeight+"KG, 当前载重:"+ currWeight+"KG";
 	}
 	
+	public Car clone()
+	{
+		 Car car = new Car(name, length, width, high, loadWeight, number);
+		 car.setCurrNum(currNum);
+		 car.setCurrWeight(currWeight);
+		 car.setPutDevices(putDevices);
+		return car;
+	}
+	
 	@Override
 	public String toString()
 	{		

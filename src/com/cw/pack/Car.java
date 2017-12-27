@@ -261,15 +261,21 @@ public class Car
 	
 	public String getDetailsInfo()
 	{
-		return "车辆 id:"+id+", 长:"+length+"mm, 宽:"+width+"mm, 高:"+high+"mm, 载重:"+loadWeight+"KG, 当前载重:"+ currWeight+"KG";
+		return "车辆名称:"+name+", 长:"+length+"mm, 宽:"+width+"mm, 高:"+high+"mm, 载重:"+loadWeight+"KG, 当前载重:"+ currWeight+"KG";
 	}
 	
+	@Override
 	public Car clone()
 	{
 		 Car car = new Car(name, length, width, high, loadWeight, number);
 		 car.setCurrNum(currNum);
 		 car.setCurrWeight(currWeight);
-		 car.setPutDevices(putDevices);
+		 List<Weapon> allNewWp = new ArrayList<Weapon>();
+		 for(Weapon w:putDevices)
+		 {
+			 allNewWp.add(w.clone());
+		 }
+		 car.setPutDevices(allNewWp);
 		return car;
 	}
 	

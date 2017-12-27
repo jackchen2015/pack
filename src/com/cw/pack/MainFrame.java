@@ -268,6 +268,13 @@ public class MainFrame extends javax.swing.JFrame
         });
 
         delCar.setText("删除");
+        delCar.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                delCarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -517,6 +524,10 @@ public class MainFrame extends javax.swing.JFrame
 		{
 			Car car = Constants.getInstance().getAllMapCars().get(carTable.getValueAt(i, 0)+"");
 			car.setNum(Integer.parseInt(carTable.getValueAt(i, 2)+""));//车数量
+			car.setCurrWeight(0);
+			car.getPutDevices().clear();
+			car.setLeftLength(car.getLength());
+			car.setCurrNum(0);
 			allCars.add(car);
 		}
 		Collections.sort(allCars, new Comparator<Car>(){
@@ -560,13 +571,16 @@ public class MainFrame extends javax.swing.JFrame
 			for(Car cc:allCars)
 			{
 				Car lastCar = cars.get(cars.size()-1);
-				if(cc.getName()==lastCar.getName())
+				if(cc.getName().equals(lastCar.getName()))
 				{
 					index = allCars.indexOf(cc);
 					if(cc.getCurrNum()==cc.getNum())
 					{
 						index++;
 					}
+					cc.setCurrWeight(0);
+					cc.getPutDevices().clear();
+					cc.setLeftLength(cc.getLength());
 					break;
 				}
 			}
@@ -666,8 +680,29 @@ public class MainFrame extends javax.swing.JFrame
 
     private void insertActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_insertActionPerformed
     {//GEN-HEADEREND:event_insertActionPerformed
+		if(dev_num.getText().trim().equals(""))
+		{
+			JOptionPane.showMessageDialog(this, "请填写武器数量!");
+			return;
+		}
 		Weapon sw = (Weapon)weaponComb.getSelectedItem();
-		((DefaultTableModel)loadDevice.getModel()).addRow(new Object[]{false, sw.getName(), sw.getLength(), sw.getWidth(), sw.getHigh(), Integer.parseInt(dev_num.getText()), sw.getWidth(), sw.getModel()});
+		int rows = loadDevice.getRowCount();
+		for(int i=0;i<rows;i++)
+		{
+			String wName = (String)loadDevice.getValueAt(i, 1);
+			if(wName.equals(sw.getName()))
+			{
+				JOptionPane.showMessageDialog(this, "武器'"+wName+"'已添加,请重新选择武器!");
+				return;
+			}
+		}
+		int wNum = Integer.parseInt(dev_num.getText());
+		if(wNum==0)
+		{
+			JOptionPane.showMessageDialog(this, "数量为0，请重新填写！");
+			return;
+		}
+		((DefaultTableModel)loadDevice.getModel()).addRow(new Object[]{false, sw.getName(), sw.getLength(), sw.getWidth(), sw.getHigh(), wNum, sw.getWidth(), sw.getModel()});
 		
 //		if(selectWeapon!=null)
 //		{			
@@ -738,7 +773,28 @@ public class MainFrame extends javax.swing.JFrame
     private void addActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_addActionPerformed
     {//GEN-HEADEREND:event_addActionPerformed
         Car car = (Car)carModel.getSelectedItem();
-		car.setNum(Integer.parseInt(carNum.getText()));
+		if(carNum.getText().trim().equals(""))
+		{
+			JOptionPane.showMessageDialog(this, "请填写车辆数量!");
+			return;
+		}
+		int cNum = Integer.parseInt(carNum.getText());
+		if(cNum==0)
+		{
+			JOptionPane.showMessageDialog(this, "数量为0，请重新填写！");
+			return;
+		}
+		car.setNum(cNum);
+		int rows = ((DefaultTableModel)carTable.getModel()).getRowCount();
+		for(int i=0;i<rows;i++)
+		{
+			String carName = (String)carTable.getValueAt(i, 0);
+			if(carName.equals(car.getName()))
+			{
+				JOptionPane.showMessageDialog(this, "车辆'"+carName+"'已添加,请重新选择车辆!");
+				return;
+			}
+		}
 		((DefaultTableModel)carTable.getModel()).addRow(new Object[]{car.getName(), car.getLoadWeight(), car.getNum()});
     }//GEN-LAST:event_addActionPerformed
 
@@ -746,6 +802,16 @@ public class MainFrame extends javax.swing.JFrame
     {//GEN-HEADEREND:event_modifyCarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_modifyCarActionPerformed
+
+    private void delCarActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_delCarActionPerformed
+    {//GEN-HEADEREND:event_delCarActionPerformed
+        // TODO add your handling code here:
+		int selRow = carTable.getSelectedRow();
+		if(selRow>-1)
+		{
+			((DefaultTableModel)carTable.getModel()).removeRow(selRow);
+		}
+    }//GEN-LAST:event_delCarActionPerformed
 
 	private String getStringCellValue(HSSFCell cell)
 	{

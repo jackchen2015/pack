@@ -184,7 +184,7 @@ public class DrawPanel extends javax.swing.JPanel
 				devWidth = (int)(dev.getWidth()*rate)-1;
 				devHight = (int)(dev.getHigh()*rate)-1;
 				startPoint = y;
-				g2d.fillRect(x, y, devWidth, devHight);
+				g2d.fillRect(x+3, y, devWidth, devHight);
 				break;
 			case 2://右侧面
 				g2d.fillRect((int)(car.getLength()*rate+diff.getLeft()*2-x-dev.getWidth()*rate), y, (int)(dev.getWidth()*rate), (int)(dev.getHigh()*rate));
@@ -193,7 +193,7 @@ public class DrawPanel extends javax.swing.JPanel
 				devWidth = (int)(dev.getWidth()*rate)-1;
 				devHight = (int)(dev.getLength()*rate)-1;
 				startPoint = (int)(car.getWidth()*rate+diff.getDistance()*2-dev.getLength()*rate-z);
-				g2d.fillRect(x, startPoint, devWidth, devHight);
+				g2d.fillRect(x+3, startPoint, devWidth, devHight);
 				break;
 			default:
 				break;

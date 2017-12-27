@@ -12,7 +12,9 @@
 package com.cw.pack;
 
 import com.cw.pack.render.ButtonRender;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JLabel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -30,6 +32,24 @@ public class ResultDialog extends javax.swing.JDialog
         super(parent, modal);
         initComponents();
 		carTxt.setText(cars.size()+"");
+		Map<String,Integer> mapCars = new HashMap<String, Integer>();
+		for(Car car:cars)
+		{
+			Integer num = mapCars.get(car.getName());
+			if(num==null)
+			{
+				num = 0;
+			}
+			num++;
+			mapCars.put(car.getName(), num);
+		}
+		String details = "其中:";
+		for(Map.Entry<String, Integer> entry:mapCars.entrySet())
+		{
+			details += entry.getKey()+" "+entry.getValue()+"辆,";
+		}
+		details = details.substring(0, details.length()-1);
+		detailTxt.setText(details);
 		initTable(cars);
     }
 
@@ -51,6 +71,7 @@ public class ResultDialog extends javax.swing.JDialog
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         carInfo = new javax.swing.JTable();
+        detailTxt = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("计算结果");
@@ -148,7 +169,8 @@ public class ResultDialog extends javax.swing.JDialog
                             .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel3)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(detailTxt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -160,7 +182,8 @@ public class ResultDialog extends javax.swing.JDialog
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(carTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
+                    .addComponent(jLabel3)
+                    .addComponent(detailTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
@@ -182,6 +205,7 @@ public class ResultDialog extends javax.swing.JDialog
     private javax.swing.JTable carInfo;
     private javax.swing.JTextField carTxt;
     private javax.swing.JButton close;
+    private javax.swing.JLabel detailTxt;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

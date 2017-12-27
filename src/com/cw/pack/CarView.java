@@ -37,6 +37,7 @@ public class CarView extends javax.swing.JPanel
 	public void showDialog()
 	{
 		dialog = new JDialog();
+		dialog.setTitle("车辆装载视图");
 
 		dialog.setName("dialog_Panel");
 		dialog.setModal(true);

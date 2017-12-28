@@ -3,6 +3,7 @@ package com.cw.pack.util.db;
 import com.cw.pack.Car;
 import com.cw.pack.Model;
 import com.cw.pack.Weapon;
+import com.cw.pack.util.Constants;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -679,17 +680,18 @@ public class DBHelper {
 		return result;
 	}
 	
-	public int addWeapon(String name, Integer length, Integer width, Integer height, Integer weight, Integer type) {
+	public Weapon addWeapon(String name, Integer length, Integer width, Integer height, Integer weight, Model type) {
 		DB2Access db = new DB2Access();
 		int id = -1;
 		if(db.createConn()) {
-			String sql = "insert into weapon(name, length, width, high, weight, model) values('"+name+"','"+length+"','"+width+"','"+height+"','"+weight+"','"+type+"')";
+			String sql = "insert into weapon(name, length, width, high, weight, model) values('"+name+"','"+length+"','"+width+"','"+height+"','"+weight+"','"+type.getId()+"')";
 			id = db.insert(sql);
 			db.closeRs();
 			db.closeStm();
 			db.closeConn();
 		}
-		return id;
+		Weapon wp = new Weapon(id, name, length, width, height, weight, 0, type);
+		return wp;
 	}
 	
 	public void delWeapon(Integer id){

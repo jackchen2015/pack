@@ -101,7 +101,7 @@ public class WeaponTypeDialog extends javax.swing.JDialog
                 return canEdit [columnIndex];
             }
         });
-        weaponTypeTab.setColumnSelectionAllowed(true);
+        weaponTypeTab.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         weaponTypeTab.getTableHeader().setReorderingAllowed(false);
         weaponTypeTab.addMouseListener(new java.awt.event.MouseAdapter()
         {
@@ -111,7 +111,6 @@ public class WeaponTypeDialog extends javax.swing.JDialog
             }
         });
         jScrollPane1.setViewportView(weaponTypeTab);
-        weaponTypeTab.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         jLabel6.setText("武器类别信息");
 

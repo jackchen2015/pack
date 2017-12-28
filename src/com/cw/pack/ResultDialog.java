@@ -46,7 +46,7 @@ public class ResultDialog extends javax.swing.JDialog
 		String details = "其中:";
 		for(Map.Entry<String, Integer> entry:mapCars.entrySet())
 		{
-			details += entry.getKey()+" "+entry.getValue()+"辆,";
+			details += entry.getKey()+"--"+entry.getValue()+"辆,";
 		}
 		details = details.substring(0, details.length()-1);
 		detailTxt.setText(details);
@@ -148,6 +148,8 @@ public class ResultDialog extends javax.swing.JDialog
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE)
         );
+
+        detailTxt.setFont(new java.awt.Font("宋体", 1, 18)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

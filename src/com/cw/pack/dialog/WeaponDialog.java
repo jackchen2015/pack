@@ -137,7 +137,7 @@ public class WeaponDialog extends javax.swing.JDialog
                 return canEdit [columnIndex];
             }
         });
-        weaponTable.setColumnSelectionAllowed(true);
+        weaponTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         weaponTable.getTableHeader().setReorderingAllowed(false);
         weaponTable.addMouseListener(new java.awt.event.MouseAdapter()
         {
@@ -147,7 +147,6 @@ public class WeaponDialog extends javax.swing.JDialog
             }
         });
         jScrollPane1.setViewportView(weaponTable);
-        weaponTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         jLabel6.setText("武器信息");
 
@@ -319,7 +318,7 @@ public class WeaponDialog extends javax.swing.JDialog
 			Integer length = (Integer)rowObj.get(2);
 			Integer width = (Integer)rowObj.get(3);
 			Integer height = (Integer)rowObj.get(4);
-			Integer weight = (Integer)rowObj.get(5);
+			Integer weight = (Integer)rowObj.get(6);
 			Weapon newWeapon = Constants.getInstance().getAllNameMapping().get(weaponName);
 			if(newWeapon!=null)
 			{
@@ -332,8 +331,11 @@ public class WeaponDialog extends javax.swing.JDialog
 				JOptionPane.showMessageDialog(this, "武器类别'"+rowObj.get(7)+"'不存在!请在武器类别中增加该武器类别!");
 				continue;
 			}
-			int id = helper.addWeapon(weaponName, length, width, height, weight, md.getId());
-			((DefaultTableModel)weaponTable.getModel()).addRow(new Object[]{id, rowObj.get(1), rowObj.get(2),rowObj.get(3),rowObj.get(4),rowObj.get(5),md});
+			newWeapon = helper.addWeapon(weaponName, length, width, height, weight, md);
+			Constants.getInstance().getAllWeapons().add(newWeapon);
+			Constants.getInstance().getAllNameMapping().put(weaponName, newWeapon);
+			Constants.getInstance().getWeapMapping().get(md).add(newWeapon);
+			((DefaultTableModel)weaponTable.getModel()).addRow(new Object[]{newWeapon.getId(), rowObj.get(1), rowObj.get(2),rowObj.get(3),rowObj.get(4),rowObj.get(6),md});
 		}
     }//GEN-LAST:event_importWeaponActionPerformed
 
@@ -369,8 +371,8 @@ public class WeaponDialog extends javax.swing.JDialog
 		Integer high = Integer.parseInt(weaponHeight.getText());
 		Integer weight = Integer.parseInt(weaponWeight.getText());
 		Model selModel = (Model)typeComb.getSelectedItem();
-		int id = helper.addWeapon(name, length, width, weight, weight, selModel.getId());
-		((DefaultTableModel)weaponTable.getModel()).addRow(new Object[]{id, name, length, width, high, weight, selModel});
+		Weapon weapon = helper.addWeapon(name, length, width, weight, weight, selModel);
+		((DefaultTableModel)weaponTable.getModel()).addRow(new Object[]{weapon.getId(), name, length, width, high, weight, selModel});
 
     }//GEN-LAST:event_insertActionPerformed
 

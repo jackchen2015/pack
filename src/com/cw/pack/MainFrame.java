@@ -64,7 +64,7 @@ public class MainFrame extends javax.swing.JFrame
         loadDevice = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        weaponTypeCmb = new javax.swing.JComboBox<>();
+        weaponTypeCmb = new javax.swing.JComboBox<Model>();
         jLabel4 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         selectAll = new javax.swing.JCheckBox();
@@ -78,12 +78,12 @@ public class MainFrame extends javax.swing.JFrame
         jSeparator4 = new javax.swing.JSeparator();
         jSeparator5 = new javax.swing.JSeparator();
         jLabel10 = new javax.swing.JLabel();
-        weaponComb = new javax.swing.JComboBox<>();
+        weaponComb = new javax.swing.JComboBox<Weapon>();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         carTable = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        carModel = new javax.swing.JComboBox<>();
+        carModel = new javax.swing.JComboBox<Car>();
         jLabel5 = new javax.swing.JLabel();
         carNum = new javax.swing.JTextField();
         add = new javax.swing.JButton();
@@ -232,13 +232,30 @@ public class MainFrame extends javax.swing.JFrame
             {
                 java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
             };
+            boolean[] canEdit = new boolean []
+            {
+                false, false, false
+            };
 
             public Class getColumnClass(int columnIndex)
             {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex)
+            {
+                return canEdit [columnIndex];
+            }
         });
         carTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        carTable.getTableHeader().setReorderingAllowed(false);
+        carTable.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
+                carTableMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(carTable);
 
         jLabel1.setText("请选择车辆");
@@ -577,6 +594,11 @@ public class MainFrame extends javax.swing.JFrame
 					if(cc.getCurrNum()==cc.getNum())
 					{
 						index++;
+						if(index==allCars.size())
+						{
+							JOptionPane.showMessageDialog(this, "车辆不够, 请重新修改车辆数量!");
+							return;
+						}
 					}
 					cc.setCurrWeight(0);
 					cc.getPutDevices().clear();
@@ -812,6 +834,17 @@ public class MainFrame extends javax.swing.JFrame
 			((DefaultTableModel)carTable.getModel()).removeRow(selRow);
 		}
     }//GEN-LAST:event_delCarActionPerformed
+
+    private void carTableMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_carTableMouseClicked
+    {//GEN-HEADEREND:event_carTableMouseClicked
+         int selectRow = carTable.getSelectedRow();
+		if(evt.getClickCount()==2&&selectRow>-1)
+		{
+			Car selCar = Constants.getInstance().getAllMapCars().get(carTable.getValueAt(selectRow, 0));
+			carModel.setSelectedItem(selCar);
+			carNum.setText(carTable.getValueAt(selectRow, 2)+"");
+		}
+    }//GEN-LAST:event_carTableMouseClicked
 
 	private String getStringCellValue(HSSFCell cell)
 	{

@@ -127,7 +127,7 @@ public class CarDialog extends javax.swing.JDialog
                 return canEdit [columnIndex];
             }
         });
-        carTable.setColumnSelectionAllowed(true);
+        carTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         carTable.getTableHeader().setReorderingAllowed(false);
         carTable.addMouseListener(new java.awt.event.MouseAdapter()
         {
@@ -137,7 +137,6 @@ public class CarDialog extends javax.swing.JDialog
             }
         });
         jScrollPane1.setViewportView(carTable);
-        carTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         jLabel6.setText("车辆信息");
 

@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import javax.swing.JOptionPane;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -108,6 +109,11 @@ public class Utils
 				if(car.getCurrNum()==car.getNum())
 				{
 					idx++;
+					if(idx==allCarModels.size())
+					{
+						JOptionPane.showMessageDialog(null, "车辆不够, 请重新修改车辆数量!");
+						return;
+					}
 				}
 				else
 				{

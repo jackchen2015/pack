@@ -126,6 +126,7 @@ public class ResultDialog extends javax.swing.JDialog
             }
         });
         carInfo.setRowHeight(20);
+        carInfo.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(carInfo);
         if (carInfo.getColumnModel().getColumnCount() > 0)
         {

@@ -565,8 +565,14 @@ public class MainFrame extends javax.swing.JFrame
 		List<Car> cars = new ArrayList<Car>();
 		Car car = allCars.get(0);
 		int index = 0;
+		boolean isLastCar = false;
 		for(Map.Entry<Model, Map<Integer,Weapon>> entry:allDevs.entrySet())
 		{
+			if(isLastCar)
+			{
+				JOptionPane.showMessageDialog(this, "车辆不够, 请重新修改车辆数量!");
+				return;				
+			}
 			//不同类型单独处理装车
 			Model model = entry.getKey();
 			Map<Integer, Weapon> devVal = entry.getValue();
@@ -596,8 +602,7 @@ public class MainFrame extends javax.swing.JFrame
 						index++;
 						if(index==allCars.size())
 						{
-							JOptionPane.showMessageDialog(this, "车辆不够, 请重新修改车辆数量!");
-							return;
+							isLastCar = true;
 						}
 					}
 					cc.setCurrWeight(0);

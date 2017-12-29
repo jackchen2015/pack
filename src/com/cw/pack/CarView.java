@@ -123,6 +123,7 @@ public class CarView extends javax.swing.JPanel
                 return canEdit [columnIndex];
             }
         });
+        devInfo.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane2.setViewportView(devInfo);
 
         jLabel2.setText("车辆信息");

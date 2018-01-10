@@ -577,17 +577,17 @@ public class MainFrame extends javax.swing.JFrame
 			Model model = entry.getKey();
 			Map<Integer, Weapon> devVal = entry.getValue();
 
-			for(Map.Entry<Integer, Weapon> devEntry:devVal.entrySet())
-			{
-				Weapon dev = devEntry.getValue();
-				if(dev.getLength()>car.getWidth())//斜放
-				{
-					long l = (long)java.lang.Math.sqrt(dev.getLength()*dev.getLength()-car.getWidth()*car.getWidth())+dev.getWidth();
-					dev.setLength(car.getWidth());
-					dev.setWidth(l);
-					dev.setSlanting(true);
-				}
-			}
+//			for(Map.Entry<Integer, Weapon> devEntry:devVal.entrySet())
+//			{
+//				Weapon dev = devEntry.getValue();
+//				if(dev.getLength()>car.getWidth())//斜放
+//				{
+//					long l = (long)java.lang.Math.sqrt(dev.getLength()*dev.getLength()-car.getWidth()*car.getWidth())+dev.getWidth();
+//					dev.setLength(car.getWidth());
+//					dev.setWidth(l);
+//					dev.setSlanting(true);
+//				}
+//			}
 
 			List<Map.Entry<Integer, Weapon>> sortResult = Utils.sort(devVal, true);//逆序排列
 			Utils.load(cars, sortResult, index, allCars);

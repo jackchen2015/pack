@@ -236,6 +236,7 @@ public class Weapon
 	public Weapon clone()
 	{
 		Weapon dev = new Weapon(id, name, length, width, high, weight, number, model);
+		dev.setSlanting(slanting);
 		return dev;
 	}
 

@@ -66,6 +66,15 @@ public class Utils
 		int loadWeight = car.getLoadWeight();
 		int leftWeight = loadWeight-currWeight;
 		int maxCanLoad1 = leftWeight/dev.getWeight();
+		
+		if(dev.getLength()>car.getWidth())//斜放
+		{
+			long l = (long)java.lang.Math.sqrt(dev.getLength()*dev.getLength()-car.getWidth()*car.getWidth())+dev.getWidth();
+			dev.setLength(car.getWidth());
+			dev.setWidth(l);
+			dev.setSlanting(true);
+		}
+		
 		int maxCanLoad2 = (int)((car.getWidth()/dev.getLength())*(length/dev.getWidth())*(car.getHigh()/dev.getHigh()));		
 		return maxCanLoad1>maxCanLoad2?maxCanLoad2:maxCanLoad1;
 	}
@@ -111,7 +120,7 @@ public class Utils
 					idx++;
 					if(idx==allCarModels.size())
 					{
-						JOptionPane.showMessageDialog(null, "车辆不够, 请重新修改车辆数量!");
+//						JOptionPane.showMessageDialog(null, "车辆不够, 请重新修改车辆数量!");
 						return;
 					}
 				}

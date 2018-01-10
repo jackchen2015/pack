@@ -708,7 +708,7 @@ public class DBHelper {
 	public void updateWeapon(Integer id, String name, Integer length, Integer width, Integer height, Integer weight, Integer type){
 		DB2Access db = new DB2Access();
 		if(db.createConn()) {
-			String sql = "update weapon set name='"+name+"',length='"+length+"',width='"+width+"',high='"+height+"',type='"+type+"' where id='"+id+"'";
+			String sql = "update weapon set name='"+name+"',length='"+length+"',width='"+width+"',high='"+height+"',model='"+type+"' where id='"+id+"'";
 			db.update(sql);
 			db.closeRs();
 			db.closeStm();

@@ -194,6 +194,13 @@ public class DrawPanel extends javax.swing.JPanel
 				devHight = (int)(dev.getLength()*rate)-1;
 				startPoint = (int)(car.getWidth()*rate+diff.getDistance()*2-dev.getLength()*rate-z);
 				g2d.fillRect(x+3, startPoint, devWidth, devHight);
+				if(dev.isSlanting())
+				{
+					Color c = g2d.getColor();
+					g2d.setColor(Color.WHITE);
+					g2d.drawLine(x+3, startPoint, x+3+devWidth, startPoint+devHight);
+					g2d.setColor(c);
+				}
 				break;
 			default:
 				break;

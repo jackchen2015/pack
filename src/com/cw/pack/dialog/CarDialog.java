@@ -12,6 +12,7 @@
 package com.cw.pack.dialog;
 
 import com.cw.pack.Car;
+import com.cw.pack.util.Constants;
 import com.cw.pack.util.NumberKeyAdapter;
 import com.cw.pack.util.Utils;
 import com.cw.pack.util.db.DBHelper;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -286,22 +288,32 @@ public class CarDialog extends javax.swing.JDialog
 		ArrayList<ArrayList<Object>> result = Utils.readExcel2003(chooser.getSelectedFile());
 		System.out.println(result);
 		int rows = carTable.getRowCount();
-		if(rows>0)
-		{
-			for(int i=0;i<rows;i++)
-				((DefaultTableModel)carTable.getModel()).removeRow(0);
-		}
+//		if(rows>0)
+//		{
+//			for(int i=0;i<rows;i++)
+//				((DefaultTableModel)carTable.getModel()).removeRow(0);
+//		}
 		DBHelper helper =new DBHelper();
 		for(int i=1;i<result.size();i++)
 		{
 			ArrayList<Object> rowObj = result.get(i);
-			String carName = (String)rowObj.get(1);
+			String carNameTxt = (String)rowObj.get(1);
+			Car c = Constants.getInstance().getAllMapCars().get(carNameTxt);
+			if(c!=null)
+			{
+				continue;
+			}
 			Integer length = (Integer)rowObj.get(2);
 			Integer width = (Integer)rowObj.get(3);
 			Integer height = (Integer)rowObj.get(4);
 			Integer weight = (Integer)rowObj.get(5);
-			int id = helper.addCar(carName, length, width, height, weight);
-			((DefaultTableModel)carTable.getModel()).addRow(new Object[]{id, carName, rowObj.get(2),rowObj.get(3),rowObj.get(4),rowObj.get(5)});
+			c = helper.addCar(carNameTxt, length, width, height, weight);
+			if(c!=null)
+			{				
+				Constants.getInstance().getAllCars().add(c);			
+				Constants.getInstance().getAllMapCars().put(carNameTxt, c);
+			}
+			((DefaultTableModel)carTable.getModel()).addRow(new Object[]{c.getId(), carNameTxt, rowObj.get(2),rowObj.get(3),rowObj.get(4),rowObj.get(5)});
 		}
         
     }//GEN-LAST:event_importCarActionPerformed
@@ -310,12 +322,23 @@ public class CarDialog extends javax.swing.JDialog
     {//GEN-HEADEREND:event_insertActionPerformed
  		DBHelper helper =new DBHelper();
  		String carNameTxt = carName.getText();
+		Car c = Constants.getInstance().getAllMapCars().get(carNameTxt);
+		if(c!=null)
+		{
+			JOptionPane.showMessageDialog(this, "车辆已存在!");
+			return;
+		}
 		Integer length = Integer.parseInt(carLength.getText());
 		Integer width = Integer.parseInt(carWidth.getText());
 		Integer height = Integer.parseInt(carHeight.getText());
 		Integer weight = Integer.parseInt(loadWeight.getText());
-		int id = helper.addCar(carNameTxt, length, width, height, weight);
-		((DefaultTableModel)carTable.getModel()).addRow(new Object[]{id, carNameTxt, length, width, height, weight});
+		c = helper.addCar(carNameTxt, length, width, height, weight);
+		if(c!=null)
+		{
+			Constants.getInstance().getAllCars().add(c);			
+			Constants.getInstance().getAllMapCars().put(carNameTxt, c);
+		}
+		((DefaultTableModel)carTable.getModel()).addRow(new Object[]{c.getId(), carNameTxt, length, width, height, weight});
     }//GEN-LAST:event_insertActionPerformed
 
     private void modifyActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_modifyActionPerformed
@@ -324,11 +347,31 @@ public class CarDialog extends javax.swing.JDialog
 		DBHelper helper =new DBHelper();
 		Integer number = Integer.parseInt(numberTxt.getText());
  		String carNameTxt = carName.getText();
+		if(Constants.getInstance().getAllMapCars().get(carNameTxt)!=null)
+		{
+			JOptionPane.showMessageDialog(this, "名称重复, 请重新修改!");
+			return;
+		}
 		Integer length = Integer.parseInt(carLength.getText());
 		Integer width = Integer.parseInt(carWidth.getText());
 		Integer height = Integer.parseInt(carHeight.getText());
 		Integer weight = Integer.parseInt(loadWeight.getText());
-		helper.updateCar(number, carNameTxt, length, width, height, weight);
+		Car c = helper.updateCar(number, carNameTxt, length, width, height, weight);
+		List<Car> allCars = Constants.getInstance().getAllCars();
+		String oldNameTxt = "";
+		for(Car cc:allCars)
+		 {
+			 if(cc.getId() == c.getId())
+			 {
+				 oldNameTxt = cc.getName();
+				 allCars.remove(cc);
+				 allCars.add(c);
+				 break;
+			 }
+		 }
+		 Constants.getInstance().getAllMapCars().remove(oldNameTxt);
+		 Constants.getInstance().getAllMapCars().put(carNameTxt, c);
+		
 		((DefaultTableModel)carTable.getModel()).setValueAt(carNameTxt, selectRow, 1);
 		((DefaultTableModel)carTable.getModel()).setValueAt(length, selectRow, 2);
 		((DefaultTableModel)carTable.getModel()).setValueAt(width, selectRow, 3);
@@ -354,7 +397,20 @@ public class CarDialog extends javax.swing.JDialog
     {//GEN-HEADEREND:event_deleteActionPerformed
          int selectRow = carTable.getSelectedRow();
 		 DBHelper helper =new DBHelper();
-		 helper.delCar(Integer.parseInt(""+carTable.getValueAt(selectRow, 0)));
+		 int carId = Integer.parseInt(""+carTable.getValueAt(selectRow, 0));
+		 String carName = "";
+		 List<Car> allCars = Constants.getInstance().getAllCars();
+		 for(Car c:allCars)
+		 {
+			 if(c.getId() == carId)
+			 {
+				 carName = c.getName();
+				 allCars.remove(c);
+				 break;
+			 }
+		 }
+		 Constants.getInstance().getAllMapCars().remove(carName);
+		 helper.delCar(carId);
 		 ((DefaultTableModel)carTable.getModel()).removeRow(selectRow);
     }//GEN-LAST:event_deleteActionPerformed
 

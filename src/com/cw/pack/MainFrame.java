@@ -19,6 +19,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -43,6 +44,7 @@ public class MainFrame extends javax.swing.JFrame
 	 */
 	public MainFrame()
 	{
+		this.setIconImage(new ImageIcon(getClass().getResource("/com/cw/pack/resource/weapon.png")).getImage());
 		initComponents();
 		((DefaultTableCellRenderer)loadDevice.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
 		initFrame();

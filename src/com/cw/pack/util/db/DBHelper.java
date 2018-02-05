@@ -561,7 +561,7 @@ public class DBHelper {
 		return result;
 	}
 	
-	public int addCar(String name, Integer length, Integer width, Integer height, Integer weight) {
+	public Car addCar(String name, Integer length, Integer width, Integer height, Integer weight) {
 		DB2Access db = new DB2Access();
 		int id = -1;
 		if(db.createConn()) {
@@ -571,7 +571,9 @@ public class DBHelper {
 			db.closeStm();
 			db.closeConn();
 		}
-		return id;
+		Car c = new Car(name, length, width, height, weight, 0);
+		c.setId(id);
+		return c;
 	}
 	
 	public void delCar(Integer id){
@@ -585,7 +587,7 @@ public class DBHelper {
 		}
 	}
 
-	public void updateCar(Integer id, String name, Integer length, Integer width, Integer height, Integer weight){
+	public Car updateCar(Integer id, String name, Integer length, Integer width, Integer height, Integer weight){
 		DB2Access db = new DB2Access();
 		if(db.createConn()) {
 			String sql = "update car set name='"+name+"', length='"+ length +"', width='"+width+"', high='"+height+"', weight='"+weight+"' where id='"+id+"'";
@@ -594,6 +596,9 @@ public class DBHelper {
 			db.closeStm();
 			db.closeConn();
 		}
+		Car c = new Car(name, length, width, height, weight, 0);
+		c.setId(id);
+		return c;
 	}
 
 //handler weapon type

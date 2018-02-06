@@ -295,7 +295,7 @@ public class WeaponDialog extends javax.swing.JDialog
 
     private void importWeaponActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_importWeaponActionPerformed
     {//GEN-HEADEREND:event_importWeaponActionPerformed
- 		JFileChooser chooser = new JFileChooser();
+ 	JFileChooser chooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("EXECL Files", "xls");
         chooser.setFileFilter(filter);
         int returnVal = chooser.showOpenDialog(null);
@@ -332,6 +332,7 @@ public class WeaponDialog extends javax.swing.JDialog
 				continue;
 			}
 			newWeapon = helper.addWeapon(weaponName, length, width, height, weight, md);
+
 			Constants.getInstance().getAllWeapons().add(newWeapon);
 			Constants.getInstance().getAllNameMapping().put(weaponName, newWeapon);
 			Constants.getInstance().getWeapMapping().get(md).add(newWeapon);
@@ -358,7 +359,22 @@ public class WeaponDialog extends javax.swing.JDialog
     {//GEN-HEADEREND:event_deleteActionPerformed
          int selectRow = weaponTable.getSelectedRow();
 		 DBHelper helper =new DBHelper();
-		 helper.delWeapon(Integer.parseInt(""+weaponTable.getValueAt(selectRow, 0)));
+                 int wId = Integer.parseInt(""+weaponTable.getValueAt(selectRow, 0));
+
+ 		 String carName = "";
+		 List<Weapon> allWeapons = Constants.getInstance().getAllWeapons();
+		 for(Weapon w:allWeapons)
+		 {
+			 if(w.getId() == wId)
+			 {
+				 carName = w.getName();
+				 allWeapons.remove(w);
+				 break;
+			 }
+		 }
+		 Constants.getInstance().getAllNameMapping().remove(carName);               
+                 
+                 helper.delWeapon(wId);
 		((DefaultTableModel)weaponTable.getModel()).removeRow(selectRow);
     }//GEN-LAST:event_deleteActionPerformed
 
@@ -366,12 +382,23 @@ public class WeaponDialog extends javax.swing.JDialog
     {//GEN-HEADEREND:event_insertActionPerformed
   		DBHelper helper =new DBHelper();
 		String name = this.weaponName.getText();
+		Weapon w = Constants.getInstance().getAllNameMapping().get(name);
+		if(w!=null)
+		{
+			JOptionPane.showMessageDialog(this, "武器已存在!");
+			return;
+		}                
 		Integer length = Integer.parseInt(weaponLength.getText());
 		Integer width = Integer.parseInt(weaponWidth.getText());
 		Integer high = Integer.parseInt(weaponHeight.getText());
 		Integer weight = Integer.parseInt(weaponWeight.getText());
 		Model selModel = (Model)typeComb.getSelectedItem();
 		Weapon weapon = helper.addWeapon(name, length, width, weight, weight, selModel);
+                if(weapon!=null)
+                {
+                    Constants.getInstance().getAllWeapons().add(weapon);
+                    Constants.getInstance().getAllNameMapping().put(name, weapon);
+                }
 		((DefaultTableModel)weaponTable.getModel()).addRow(new Object[]{weapon.getId(), name, length, width, high, weight, selModel});
 
     }//GEN-LAST:event_insertActionPerformed
@@ -382,12 +409,34 @@ public class WeaponDialog extends javax.swing.JDialog
 		DBHelper helper =new DBHelper();
 		Integer number = Integer.parseInt(numberTxt.getText());
  		String weaponNameTxt = weaponName.getText();
+                Weapon w0 = Constants.getInstance().getAllNameMapping().get(weaponNameTxt);
+                if(w0!=null&&w0.getId()!=number)
+                {
+			JOptionPane.showMessageDialog(this, "名称重复, 请重新修改!");
+			return;                    
+                }
 		Integer length = Integer.parseInt(weaponLength.getText());
 		Integer width = Integer.parseInt(weaponWidth.getText());
 		Integer height = Integer.parseInt(weaponHeight.getText());
 		Integer weight = Integer.parseInt(weaponWeight.getText());
 		Model model = (Model)typeComb.getSelectedItem();
-		helper.updateWeapon(number, weaponNameTxt, length, width, height, weight, model.getId());
+		Weapon w = helper.updateWeapon(number, weaponNameTxt, length, width, height, weight, model.getId());
+                
+		List<Weapon> allWeapons = Constants.getInstance().getAllWeapons();
+		String oldNameTxt = "";
+		for(Weapon cc:allWeapons)
+		 {
+			 if(cc.getId() == number)
+			 {
+				 oldNameTxt = cc.getName();
+				 allWeapons.remove(cc);
+				 allWeapons.add(w);
+				 break;
+			 }
+		 }
+		 Constants.getInstance().getAllWeapons().remove(oldNameTxt);
+		 Constants.getInstance().getAllNameMapping().put(weaponNameTxt, w);                
+                
 		((DefaultTableModel)weaponTable.getModel()).setValueAt(weaponNameTxt, selectRow, 1);
 		((DefaultTableModel)weaponTable.getModel()).setValueAt(length, selectRow, 2);
 		((DefaultTableModel)weaponTable.getModel()).setValueAt(width, selectRow, 3);

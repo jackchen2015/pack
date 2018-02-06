@@ -347,7 +347,9 @@ public class CarDialog extends javax.swing.JDialog
 		DBHelper helper =new DBHelper();
 		Integer number = Integer.parseInt(numberTxt.getText());
  		String carNameTxt = carName.getText();
-		if(Constants.getInstance().getAllMapCars().get(carNameTxt)!=null)
+                Car c0 = Constants.getInstance().getAllMapCars().get(carNameTxt);
+                
+		if(c0!=null&&c0.getId()!=number)
 		{
 			JOptionPane.showMessageDialog(this, "名称重复, 请重新修改!");
 			return;

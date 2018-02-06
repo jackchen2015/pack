@@ -710,7 +710,7 @@ public class DBHelper {
 		}
 	}
 
-	public void updateWeapon(Integer id, String name, Integer length, Integer width, Integer height, Integer weight, Integer type){
+	public Weapon updateWeapon(Integer id, String name, Integer length, Integer width, Integer height, Integer weight, Integer type){
 		DB2Access db = new DB2Access();
 		if(db.createConn()) {
 			String sql = "update weapon set name='"+name+"',length='"+length+"',width='"+width+"',high='"+height+"',model='"+type+"' where id='"+id+"'";
@@ -719,6 +719,9 @@ public class DBHelper {
 			db.closeStm();
 			db.closeConn();
 		}
+
+                Weapon w = new Weapon(id, name, length, width, height, weight, 0, Constants.getInstance().getAllMapModels().get(type+""));
+                return w;
 	}
 
 }
